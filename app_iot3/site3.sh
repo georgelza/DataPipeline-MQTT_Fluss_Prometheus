@@ -6,6 +6,10 @@
 export RUNHISTORIC=0
 
 ### MQTT Broker information -> see .pws
+export MQTT_BROKER_HOST=localhost
+export MQTT_BROKER_PORT=1885
+export MQTT_CLIENTTAG=factory_east
+export MQTT_TOPIC=factory_iot/east
 
 # This is used in app4d, see the README.md for more information
 export TIMESTAMP_FIELD=timestamp
@@ -28,7 +32,7 @@ export FILE_DEBUGLEVEL=0
 # Irrespective of debug level, lets control if we want to echo the entire seedfile or not.
 export ECHOSEEDFILE=0
 export SEEDFILE=conf/Full.json
-export SITEIDS=101,104
+export SITEIDS=103,106
 
 # Data persistance will be controlled per site, using:
 # sites["data_persistence"]
@@ -40,14 +44,14 @@ export SITEIDS=101,104
 # If 2 -> Specify Mongo connection information in environment variables, or currently we do this via the .pwd file (listed in .gitignore)
 
 export LOGDIR=logs
-export LOGGINGFILE=logger_north
+export LOGGINGFILE=logger_east
 
 # TSHUMAN adds when 1 a human readable timestamp to the metadata sub tag
 # STRUCMOD adds when 1 a location base on longitude and latitude to the metadata sub tag
 # DEVICETYPE adds the deviceType value from the device definision from the full.json file
 
-export TSHUMAN=0
-export STRUCTMOD=0
-export DEVICETYPE=0
+export TSHUMAN=1
+export STRUCTMOD=1
+export DEVICETYPE=1
 
 python3 main.py

@@ -6,27 +6,43 @@
     Will create the Hive & Fluss catalog.
 
     - hive_catalog
-    - iot database inside hive_catalog
+    - kafka database inside hive_catalog
     - prometheus database inside hive_catalog
-    - fluss_catalog
+    - fluss_catalog, we will use `fluss` as our default database.
 
-2. 2.creSource.sql
+2. 2.0.crePromSource.sql
 
-    - Create 2 flink tables, sourced using kafka connector from 3 x topics.
-    - Create for each table above an unnested version.
-    - populated unnested target table with data from source.
+    - ....
 
-3.  3.1.crePromTarget.sql
+3. 2.1.creKafkaSource.sql
 
-    - Create one target table used to sink to prometheus
-    - Create 3 insert jobs, sourced from the 3 unnested tables, inserting into prometheus target
+    - ...
   
-4.  3.2.creFlussTarget.sql
+4. 2.2.creFlussTarget.sql
 
-    Create our Fluss Target tables
-    Execute the insert jobs, seleccting from hive source tables (nested and unnested versions).
+    ...
 
-5. 4.runLakehouse.bsh
+5. 2.3.crePromTargets.sql
+
+   ...
+
+6. 3.0.creCurlPromPublish.bsh
+   
+   ...
+   
+7. 3.0.crePromInserts.sql
+
+  ...
+
+7. 3.2.creFlussInserts.sql
+
+  ...
+
+8. 3.3.crePromInserts.sql
+
+  ...
+
+9. 4.runLakehouse.bsh
  
    Initiate ./bin/lakehouse.sh sync script, this is the job that moves our data from Fluss tables on the tablet servers down to the configured lakehouse persistent storage.
 

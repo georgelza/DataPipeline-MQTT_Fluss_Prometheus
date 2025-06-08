@@ -107,6 +107,7 @@ def configparams():
     config_params["FILE_DEBUGLEVEL"]    = int(os.environ["FILE_DEBUGLEVEL"])
     config_params["ECHOSEEDFILE"]       = int(os.environ["ECHOSEEDFILE"])
         
+    config_params["RUNHISTORIC"]        = int(os.environ["RUNHISTORIC"])
         
     config_params["MQTT_BROKER_HOST"]   = os.environ["MQTT_BROKER_HOST"]
     config_params["MQTT_BROKER_PORT"]   = int(os.environ["MQTT_BROKER_PORT"])

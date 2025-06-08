@@ -28,87 +28,42 @@ configs:
 
   prometheus_conf:
     file: ./conf/prometheus.yml
-  prometheus_auth:
-    file: ./conf/auth.yml
 
 services:
 
-  # begin Confluent Kafka cluster
-  broker:
-    image: confluentinc/cp-kafka:7.7.1
-    container_name: broker
-    hostname: broker
-    ports:
-      - "9092:9092"
-      - "9101:9101"
-      - "29092:29092"
-    environment:
-      KAFKA_NODE_ID: 1
-      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: 'CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT'
-      KAFKA_ADVERTISED_LISTENERS: 'PLAINTEXT://broker:29092,PLAINTEXT_HOST://localhost:9092'
-      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
-      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
-      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
-      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
-      KAFKA_JMX_PORT: 9101
-      KAFKA_JMX_HOSTNAME: localhost
-      KAFKA_PROCESS_ROLES: 'broker,controller'
-      KAFKA_CONTROLLER_QUORUM_VOTERS: '1@broker:29093'
-      KAFKA_LISTENERS: 'PLAINTEXT://broker:29092,CONTROLLER://broker:29093,PLAINTEXT_HOST://0.0.0.0:9092'
-      KAFKA_INTER_BROKER_LISTENER_NAME: 'PLAINTEXT'
-      KAFKA_CONTROLLER_LISTENER_NAMES: 'CONTROLLER'
-      KAFKA_LOG_DIRS: '/tmp/kraft-combined-logs'
-      # Replace CLUSTER_ID with a unique base64 UUID using "bin/kafka-storage.sh random-uuid" 
-      # See https://docs.confluent.io/kafka/operations-tools/kafka-tools.html#kafka-storage-sh
-      CLUSTER_ID: 'MkU3OEVBNTcwNTJENDM2Qk'
+# Eclips Misquito Broker
+  mqtt_broker_north:
+    image: eclipse-mosquitto:latest
+    container_name: broker_north
+    hostname: broker_north
+    ports: 
+      - 1883:1883
+    volumes:
+      - ./conf/mqtt/north:/mosquitto/config
+      - ./data/mqtt/north/data:/mosquitto/data
+      - ./data/mqtt/north/log:/mosquitto/log
 
+  mqtt_broker_south:
+    image: eclipse-mosquitto:latest
+    container_name: broker_south
+    hostname: broker_south
+    ports: 
+      - 1884:1884
+    volumes:
+      - ./conf/mqtt/south:/mosquitto/config
+      - ./data/mqtt/south/data:/mosquitto/data
+      - ./data/mqtt/south/log:/mosquitto/log
 
-  schema-registry:
-    image: confluentinc/cp-schema-registry:7.7.1
-    container_name: schema-registry
-    hostname: schema-registry
-    depends_on:
-      - broker
-    ports:
-      - "9081:9081"
-    environment:
-      SCHEMA_REGISTRY_HOST_NAME: schema-registry
-      SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS: 'broker:29092'
-      SCHEMA_REGISTRY_LISTENERS: http://0.0.0.0:9081
-      
-
-  control-center:
-    image: confluentinc/cp-enterprise-control-center:7.7.1
-    container_name: control-center
-    hostname: control-center
-    depends_on:
-      - broker
-    ports:
-      - "9021:9021"     # -> Web UI console
-    environment:
-      CONTROL_CENTER_BOOTSTRAP_SERVERS: 'broker:29092'
-      CONTROL_CENTER_CONNECT_CONNECT-DEFAULT_CLUSTER: 'connect:8083'
-      CONTROL_CENTER_CONNECT_HEALTHCHECK_ENDPOINT: '/connectors'
-      CONTROL_CENTER_KSQL_KSQLDB1_URL: "http://ksqldb-server:8088"
-      CONTROL_CENTER_KSQL_KSQLDB1_ADVERTISED_URL: "http://localhost:8088"
-      CONTROL_CENTER_SCHEMA_REGISTRY_URL: "http://schema-registry:9081"
-      CONTROL_CENTER_REPLICATION_FACTOR: 1
-      CONTROL_CENTER_INTERNAL_TOPICS_PARTITIONS: 1
-      CONTROL_CENTER_MONITORING_INTERCEPTOR_TOPIC_PARTITIONS: 1
-      CONFLUENT_METRICS_TOPIC_REPLICATION: 1
-      PORT: 9021
-
-  kafka-init-topics:
-    image: confluentinc/cp-kafka:7.7.1
-    depends_on:
-      - broker
-    command: "bash -c 'echo Waiting for Kafka to be ready... && \
-      cub kafka-ready -b broker:29092 1 30 && \
-      kafka-topics --create --topic factory_iot_north --partitions 1 --replication-factor 1 --if-not-exists --bootstrap-server broker:29092 && \
-      kafka-topics --create --topic factory_iot_south --partitions 1 --replication-factor 1 --if-not-exists --bootstrap-server broker:29092 && \
-      kafka-topics --create --topic factory_iot_east --partitions 1 --replication-factor 1 --if-not-exists --bootstrap-server broker:29092'"
-
-  # end Clonfluent cluster
+  mqtt_broker_east:
+    image: eclipse-mosquitto:latest
+    container_name: broker_east
+    hostname: broker_east
+    ports: 
+      - 1885:1885
+    volumes:
+      - ./conf/mqtt/east:/mosquitto/config
+      - ./data/mqtt/east/data:/mosquitto/data
+      - ./data/mqtt/east/log:/mosquitto/log
 
 
   # begin Fluss cluster
@@ -120,8 +75,8 @@ services:
     image: fluss/fluss:0.6.0
     container_name: coordinator-server
     hostname: coordinator-server
-    ports:
-      - "9123:9123"
+    # ports:
+    #   - 9123:9123
     depends_on:
       - zookeeper
     environment:
@@ -229,9 +184,10 @@ services:
     hostname: jobmanager
     container_name: jobmanager
     ports:
-      - "8083:8081"
+      - 8083:8081
     environment:
       - env.log.level=DEBUG
+
     volumes:
       - ./data/paimon:/tmp/paimon
       - ./creFlinkFlows:/sql
@@ -239,6 +195,7 @@ services:
       - ./data/flink/logs:/opt/flink/log
       - ./data/flink/checkpoints:/opt/flink/checkpoints
       - ./data/flink/rocksdb:/opt/flink/rocksdb
+      - ./data/flink/jm/tmp:/tmp
 
       - ./conf/flink/lib/hive:/opt/flink/lib/hive
       - ./conf/flink/lib/fluss:/opt/flink/lib/fluss
@@ -263,7 +220,7 @@ services:
     depends_on:
       - jobmanager
     deploy:
-      replicas: 1
+      replicas: 2
     environment:
       - env.log.level=DEBUG
 
@@ -273,6 +230,7 @@ services:
       - ./data/flink/logs:/opt/flink/log
       - ./data/flink/checkpoints:/opt/flink/checkpoints
       - ./data/flink/rocksdb:/opt/flink/rocksdb
+      - ./data/flink/tm/tmp:/tmp
 
       - ./conf/flink/lib/hive:/opt/flink/lib/hive
       - ./conf/flink/lib/fluss:/opt/flink/lib/fluss
@@ -291,7 +249,6 @@ services:
       - source: log4j-session
         target: /opt/flink/conf/log4j-session.properties
     command: taskmanager
-
   # end Flink cluster
 
 
@@ -506,22 +463,24 @@ services:
   # Configure Remote write Reciever
   # https://ambar-thecloudgarage.medium.com/remote-writes-with-kube-prometheus-3b4ad038d675
   # https://faun.pub/how-to-configure-prometheus-server-as-a-remote-write-receiver-4c8e265011c2
+  # https://www.google.com/search?client=safari&rls=en&q=docker+compose+prometheus+web.enable-remote-write-receiver&ie=UTF-8&oe=UTF-8
   prometheus:
     image: prom/prometheus:v3.3.0
     hostname: prometheus
     container_name: prometheus
+    environment:
+      - TZ=Africa/Johannesburg
     volumes:
       - ./data/prometheus:/data
     configs:
       - source: prometheus_conf
         target: /etc/prometheus/prometheus.yml
-      - source: prometheus_auth
-        target: /etc/prometheus/auth.yml
     ports:
       - 9090:9090
-#   command: --config.file=/etc/prometheus/prometheus.yml --web.config.file=/etc/prometheus/auth.yml --web.enable-remote-write-receiver --storage.tsdb.path=/data
-    command: --config.file=/etc/prometheus/prometheus.yml --web.enable-remote-write-receiver --storage.tsdb.path=/data
-
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yml"
+      - "--web.enable-remote-write-receiver"
+      - "--storage.tsdb.path=/data"
 
   grafana:
     image: grafana/grafana:11.6.1
@@ -530,7 +489,7 @@ services:
     restart: unless-stopped
     volumes:
       - ./data/grafana:/var/lib/grafana
-#      - ./data/grafana:/etc/grafana/provisioning/datasources
+      - ./data/grafana/provisioning/:/etc/grafana/provisioning/
     environment:
       - GF_SECURITY_ADMIN_USER=admin
       - GF_SECURITY_ADMIN_PASSWORD=adminadmin
@@ -545,11 +504,10 @@ services:
 # in the Volumes, you can point all the configs to the single app_iot1/conf and commond share it or you can 
 # place a site specific config file into each folder and then configure each of the data gens to use it's own specific
 # configuration file
-# The "security" related paramters are contained in the .env file
-  iot1:
-    image: georgelza/iot_datagen:3.2
-    hostname: iot1
-    container_name: iot1
+  iot1_mqtt:
+    image: georgelza/iot_datagen:4.0
+    hostname: iot1_mqtt
+    container_name: iot1_mqtt
     environment:
       TIMESTAMP_FIELD: ${TIMESTAMP_FIELD}
       METADATA_FIELD: ${METADATA_FIELD}
@@ -565,17 +523,15 @@ services:
       TSHUMAN: 0
       STRUCTMOD: 0
       DEVICETYPE: 0
-      KAFKA_TOPIC_NAME: factory_iot_north
-      KAFKA_MODE: 1
-      KAFKA_BATCH_SIZE: 1000
-    volumes:
-      - ../app_iot1/conf/:/app/conf
-      - ../app_iot1/logs/:/app/logs
 
-  iot2:
-    image: georgelza/iot_datagen:3.2
-    hostname: iot2
-    container_name: iot2
+    volumes:
+      - ../app_mqttiot1/conf/:/app/conf
+      - ../app_mqttiot1/logs/:/app/logs
+
+  iot2_mqtt:
+    image: georgelza/iot_datagen:4.0
+    hostname: iot2_mqtt
+    container_name: iot2_mqtt
     environment:
       TIMESTAMP_FIELD: ${TIMESTAMP_FIELD}
       METADATA_FIELD: ${METADATA_FIELD}
@@ -591,17 +547,15 @@ services:
       TSHUMAN: 1
       STRUCTMOD: 1
       DEVICETYPE: 0
-      KAFKA_TOPIC_NAME: factory_iot_south
-      KAFKA_MODE: 1
-      KAFKA_BATCH_SIZE: 1000
-    volumes:
-      - ../app_iot2/conf/:/app/conf
-      - ../app_iot2/logs/:/app/logs
 
-  iot3:
-    image: georgelza/iot_datagen:3.2
-    hostname: iot3
-    container_name: iot3
+    volumes:
+      - ../app_mqttiot2/conf/:/app/conf
+      - ../app_mqttiot2/logs/:/app/logs
+
+  iot3_mqtt:
+    image: georgelza/iot_datagen:4.0
+    hostname: iot3_mqtt
+    container_name: iot3_mqtt
     environment:
       TIMESTAMP_FIELD: ${TIMESTAMP_FIELD}
       METADATA_FIELD: ${METADATA_FIELD}
@@ -617,12 +571,10 @@ services:
       TSHUMAN: 1
       STRUCTMOD: 1
       DEVICETYPE: 1
-      KAFKA_TOPIC_NAME: factory_iot_east
-      KAFKA_MODE: 1
-      KAFKA_BATCH_SIZE: 1000
+
     volumes:
-      - ../app_iot3/conf/:/app/conf
-      - ../app_iot3/logs/:/app/logs
+      - ../app_mqttiot3/conf/:/app/conf
+      - ../app_mqttiot3/logs/:/app/logs
 
 
 # Without a network explicitly defined, you hit this Hive/Thrift error
