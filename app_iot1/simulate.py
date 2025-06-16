@@ -21,7 +21,6 @@
 #                       :   https://realpython.com/python-logging/
 #
 ########################################################################################################################
-
 __author__      = "George Leonard"
 __email__       = "georgelza@gmail.com"
 __version__     = "3.2.0"
@@ -35,8 +34,10 @@ from datetime import datetime, timedelta, timezone
 import random
 from time import perf_counter
 
-# Function to check if the current time is within the specified time range for the site
-# Business/operational hours or 24 hour site
+"""
+Function to check if the current time is within the specified time range for the site
+Business/operational hours or 24 hour site
+"""
 def is_within_time_range(start_time_str, end_time_str, current_time=None):
     
     # Convert the string representations of start_time and end_time to time objects
@@ -64,12 +65,18 @@ def is_within_time_range(start_time_str, end_time_str, current_time=None):
 
 # end is_within_time_range
 
-
-# Helper to convert local time with timezone to UTC
+"""
+Helper to convert local time with timezone to UTC
+"""
 def convert_to_utc(local_time_with_tz):
     return local_time_with_tz.astimezone(timezone.utc)
 
-# Example function to generate payloads with timezone in the timestamp
+#end def
+
+
+"""
+Example function to generate payloads with timezone in the timestamp
+"""
 def generate_payload(logger, site, device, sensor, current_time, time_zone_offset, config_params):
 
    # Adjust the timestamp to include the site's local timezone offset
@@ -116,6 +123,7 @@ def generate_payload(logger, site, device, sensor, current_time, time_zone_offse
     return payload
 
 # end generate_payload
+
 
 """
 Generate a sensor value, 

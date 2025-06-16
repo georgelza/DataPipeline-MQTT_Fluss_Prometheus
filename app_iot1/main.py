@@ -15,11 +15,10 @@
 #   Create Virtualenv   :   python3 -m venv ./venv
 #
 ########################################################################################################################
-
 __author__      = "George Leonard"
 __email__       = "georgelza@gmail.com"
 __version__     = "3.0.0"
-__copyright__   = "Copyright 2024, - G Leonard"
+__copyright__   = "Copyright 2025, - G Leonard"
 
 
 import utils
@@ -27,14 +26,13 @@ import simulate
 import os, multiprocessing
 from datetime import datetime
 
-
+"""
+For those noticing, we're modifying the LOGGINGFILE value a bit, the end result is that each run will have a unique logfile
+based on LOGGINGFILE and the current runtime, 
+this is because we want to keep the logs for each run, so that we can see how the program is running.
+"""
 def main():
     
-    
-    # For those noticing, we're modifying the LOGGINGFILE value a bit, the end result is that each run will have a unique logfile
-    # based on LOGGINGFILE and the current runtime, 
-    # this is because we want to keep the logs for each run, so that we can see how the program is running.
-
     runTime                      = str(datetime.now().strftime("%Y-%m-%d_%H:%M:%S"))
     config_params                = utils.configparams()
     config_params["LOGGINGFILE"] = config_params["LOGDIR"] + "/"+ config_params["LOGGINGFILE"] + "_" + runTime

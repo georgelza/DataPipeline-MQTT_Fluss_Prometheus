@@ -19,15 +19,13 @@
 #                   :   https://realpython.com/python-logging/
 #
 ########################################################################################################################
-
 __author__      = "George Leonard"
 __email__       = "georgelza@gmail.com"
 __version__     = "3.0.0"
-__copyright__   = "Copyright 2024, - G Leonard"
+__copyright__   = "Copyright 2025, - G Leonard"
 
 
 import logging, os, json, sys
-
 
 """
 Common Generic Logger setup, used by master loop for console and common file.
@@ -181,8 +179,9 @@ def echo_config(config_params, logger):
 
 # end echo_config
 
-
-# Console print
+"""
+Simple Console print
+"""
 def pp_json(json_thing, logger, sort=True, indents=4):
 
     if type(json_thing) is str:

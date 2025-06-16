@@ -15,10 +15,9 @@
 __author__      = "George Leonard"
 __email__       = "georgelza@gmail.com"
 __version__     = "1.0.0"
-__copyright__   = "Copyright 2025, George Leonard"
+__copyright__   = "Copyright 2025, - G Leonard"
 
 
-#Libraries
 import paho.mqtt.client as mqtt
 import sys, json
 from datetime import datetime
@@ -51,14 +50,18 @@ def on_connect(client, userdata, flags, rc):
 #end on_connect
 
 
-# Define the callback for when a message is published
+"""
+Define the callback for when a message is published
+"""
 def on_publish(client, userdata, mid):
     print(f"Message published with ID:{mid}")
 
 #end on_publish
 
-    
+
+"""
 ############# Instantiate a connection to the MQTT Server ##################
+"""
 def createProducer(config_params, site, logger):
 
     
@@ -97,7 +100,7 @@ def createProducer(config_params, site, logger):
         
         
         logger.info("{time}, connection.connect - Connection to MQTT Configured Successfully... Client: {clienttag}, Broker: {broker}, Port: {port}".format(
-            time        = str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
+             time        = str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
             ,clienttag   = clienttag
             ,broker      = broker
             ,port        = port
@@ -170,6 +173,8 @@ def on_disconnect(client, userdata, flags, rc=0):
 
 
 def mqtt_publish(connection, payload, topic, mode, logger):
+    
+    result = None
     
     if connection is None:
         logger.error("MQTT producer is None, skipping produce.")
@@ -276,6 +281,7 @@ def createFileConnection(filename, siteId, logger):
     
     # end try
 # end createFileConnection
+
 
 def writeToFile(file, siteId, mode, payload, logger):
 
