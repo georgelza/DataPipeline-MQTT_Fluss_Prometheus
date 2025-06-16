@@ -22,19 +22,17 @@ For more sites see end of the file.
 
 2.  Once on the MQTT Topics we will consume the payloads using a MQTT/Flink connector into `hive_catalog.mqtt.factory_iot_#` tables. This is done using `<root>/devlab0/creFlinkFlows/2.1.creMQTTSource.sql`
    
-- [davidfantasy - flink-connector-mqtt](https://github.com/davidfantasy/flink-connector-mqtt) (Preferred) or 
+from our **Apache Flink** cluster and ingest the data into our `hive_catalog.mqtt.factory_iot_#`  (each table mimicing a siteId) tables. We will then insert the data into our `fluss_catalog.iot.*` selecting from the `hive_catalog.mqtt.factory_iot_*` tables.
 
-from our **Apache Flink** cluster and ingest the data into our `hive_catalog.iot.factory_iot_#`  (each table mimicing a siteId) tables. We will then insert the data into our `fluss_catalog.iot.*` selecting from the `hive_catalog.iot.*` tables.
+NOTE: This [MQTT-Flink-Source-connector](https://github.com/georgelza/MQTT-Flink-Source-connector) is an example connector... Do not assume that it is large enterprise producion ready.
 
-NOTE: This is an example connector... Do not assume that it is large enterprise producion ready.
-
-3.  After this we will consolidate all into one fluss based table namely, `factory_iot_unnested` table, during this insert we also unnest/flatten the data structure.
+1.  After this we will consolidate all into one fluss based table namely, `factory_iot_unnested` table, during this insert we also unnest/flatten the data structure.
    
-4.  We will now create 3 flink/output tables using the "beta" prometheus flink sql connector. (see Build various containers, step 3 re the beta prometheus sink connector). 
+2.  We will now create 3 flink/output tables using the "beta" [prometheus](https://prmetheus.io) flink [sql connector](https://github.com/apache/flink-connector-prometheus/pull/22). (see Build various containers, step 3 re the beta prometheus sink connector). 
    
-5.  We will then run 3 jobs to insert the `siteId=101`, `siteId=102` and `siteId=103` into the above created tabless. During this step we assign the metric label, you can run all 3 flink inserts as one label or you can call it say **north_metrics**, **south_metrics** and **east_metrics**.
+3.  We will then run 3 jobs to insert the `siteId=101`, `siteId=102` and `siteId=103` into the above created tabless. During this step we assign the metric label, you can run all 3 flink inserts as one label or you can call it say **north_metrics**, **south_metrics** and **east_metrics**.
    
-6.  At this point we have data flowing from source into mqtt, via flink into fluss, then sinked down into prometheus using a flink connector. At this stage we now have the entire pipeline defined, allowing us to created fancy Grafana dashboards.
+4.  At this point we have data flowing from source into mqtt, via flink into fluss, then sinked down into prometheus using a flink connector. At this stage we now have the entire pipeline defined, allowing us to created fancy Grafana dashboards.
 
 [GIT Repo:](https://github.com/georgelza/DataPipeline-MQTT_Fluss_Prometheus)
 
@@ -43,7 +41,7 @@ NOTE: This is an example connector... Do not assume that it is large enterprise 
 
 The Prometheus container runs as UTC time (I've tried to use environment setting to change it, no success). But the following always applies, so make sure to consider that in anything re prometheus destined data.
 
-1. Firstly Prometheus does not allow old data to be published onto the remote_writer that is to far in the past, similarly it also does not allow for time travellers from the future... Creating data with a time stamp to far into the future.
+1. Firstly [Prometheus](https://prometheus.io) does not allow old data to be published onto the remote_writer that is to far in the past, similarly it also does not allow for time travellers from the future... Creating data with a time stamp to far into the future.
 
 2. My data generator can be used in various configurations... i.e.: to just push metrics into MQTT and down into flink and onwards to Fluss. Where it can then be used to do analytics etc. on. In this scenario it can be configured to first create historic data and then go into an current mode.
 
@@ -80,7 +78,7 @@ See below for version information.
 
 - Ubuntu 24.04 LTS
 
-- MQTT Broker - Latest
+- MQTT Broker - eclipse-mosquitto:2.0.21
 
 - Apache Flink 1.20.1 - Java 17
 
@@ -97,6 +95,7 @@ See below for version information.
 - Prometheus v3.3.0
   
 - Grafana 11.6.1
+
 
 ## Our various IoT Payloads formats.
 
@@ -171,15 +170,14 @@ See below for version information.
 
 4. devlab0/conf/hive-site.xml
 
+
 ### Download containers and libraries
 
 1. cd infrastructure
 
 2. make pullall
 
-3. make 
-
-4. make buildall
+3. make buildall
 
 
 ### Build various containers
@@ -188,31 +186,12 @@ See below for version information.
 
 2. ./getlibs.sh
 
-3. One lib/.jar file not downloadable at this stage, using the #2 command is our primary prometheus sink jar, this is because as we stand right now this is still in development and a PR, see: [flink-connector-prometheus](https://github.com/apache/flink-connector-prometheus/pull/22). As such I'm including it in the `<root>/devlab0/prometheus_jar` diretory, please copy/move this into the `<root>/devlab0/conf/flink/lib/flink` directory.
+3. One lib/.jar file not downloadable at this stage, using the #2 command is our primary prometheus sink jar, this is because as we stand right now this is still in development and a PR, see: [flink-connector-prometheus](https://github.com/apache/flink-connector-prometheus/pull/22). As such I'm including it in the `<root>/devlab0/prometheus_jar` diretory, please copy/move this into the `<root>/devlab0/conf/flink/lib/flink` directory. Also rememver to copy the mqtt-*jar source connector jars to this directory.
 
 4. If you want to run the load generators as docker apps ->  make buildapp
    Otherwise skip step 4 and continue to 5.
 
 5. Now, to run it please read README.md in `<root>/devlab0/README.md` file.
-
-
-### Build Apache Flink MQTT Source Connector
-
-1. The following will build our Apache Flink Connector source jar files.
-
-2. Note it does require Java 17 and has been tested against Apache Flink 1.20.1
-
-3. See cd `<root>/devlab0/connector/README.md`
-
-4. `cd <root>/devlab0/connector/mqtt_flink_connector`
-
-5. `mvn clean package`
-
-6. Now copy:
-   
-   1. <root>/devlab0/connector/mqtt_flink_connector/mqtt-source/target/mqtt*.jar to <root>/devlab0/conf/flink/lib/flink
-   
-   2. <root>/devlab0/connector/mqtt_flink_connector/mqtt-job/target/mqtt*.jar to <root>/devlab0/conf/flink/lib/flink
 
 
 ### Mosquito Access control
@@ -236,7 +215,8 @@ Followby by executing inside the container.
 
 First make sure the `<root>/devlab#/conf/mqtt/[<east/north/south>]/mosquitto.conf` contain the below
 
-North
+
+**North**
 ```shell
     persistence true
     listener 1883
@@ -245,7 +225,7 @@ North
     password_file /mosquitto/config/password_file
 ```
 
-South
+**South**
 ```shell
     persistence true
     listener 1884
@@ -254,7 +234,7 @@ South
     password_file /mosquitto/config/password_file
 ```
 
-East
+**East**
 ```shell
     persistence true
     listener 1885
@@ -262,6 +242,7 @@ East
     log_dest file /mosquitto/log/mosquitto.log
     password_file /mosquitto/config/password_file
 ```
+
 
 Now execute `make down`, once the stack is stopped execute the below.
 
@@ -276,7 +257,7 @@ I use both MQTT Explorer and MQTT.fx to see whats happening on MQTT Brokers.
 
 ## Projects / Components
 
-- [MQTT]()
+- [MQTT](https://mqtt.org)
   
 - [Apache Flink](https://flink.apache.org)
 
@@ -400,17 +381,6 @@ I've added the below sites with devices and sensors into `<root>/app_iot1/conf/a
 
 Note: The presence of the 2 new regions, West and Central. If you decide to add all of these also add the required topics and tables.
 They were created as various copies of 101->106, with maybe some slight changes here and there.
-
-
-### BETA Connectors
-
-https://github.com/ajiniesta/flink-connector-mqtt
-
-https://central.sonatype.com/artifact/com.github.davidfantasy/flink-connector-mqtt
-
-https://github.com/kevin4936/kevin-flink-connector-mqtt3
-
-https://github.com/luckyyuyong/flink-mqtt-connector
 
 
 
