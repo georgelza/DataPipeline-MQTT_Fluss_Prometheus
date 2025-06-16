@@ -10,7 +10,7 @@ Available commands:
 
 - run: This will call core.
 
-- deploy: This will create all the catalogs, databases. Flink/Fluss tables etc.
+- deploy: This will create all the catalogs, databases. Flink/Fluss tables and Flink insert jobs.
 
 - rp#: Run workload creator/the Python app -> Post onto MQTT Broker Topic
 - sp#: Stop Python app
@@ -38,44 +38,41 @@ help:
 
 
 buildapp:
-	cd ../app_mqttiot1; make build
+	cd ../app_iot1; make build
 
 #	docker rmi $(docker images -q --filter "dangling=true")
 
 run: 
 	docker compose -p pipeline up -d \
-		broker schema-registry  control-center kafka-init-topics \
+		mqtt_broker_north mqtt_broker_south mqtt_broker_east \
 		postgres metastore hiveserver2 \
 		jobmanager taskmanager \
 		zookeeper coordinator-server tablet-server-0 tablet-server-1 tablet-server-2 \
 		prometheus grafana \
 		 --remove-orphans 
 
-#		Not used currently
 #		namenode resourcemanager historyserver nodemanager1 datanode1 datanode2 datanode3 datanode4 datanode5 \
-#		minio mc
  
-deploy: createcat createtopics source targets
-
-createtopics:
-# taken care off by kafka-init-topics
+deploy:  createcat source targets 
+# inserts
  
 createcat:
 	docker compose exec jobmanager /opt/flink/bin/sql-client.sh -f /sql/1.0.creCat.sql
 
 source:
-	docker compose exec jobmanager /opt/flink/bin/sql-client.sh -f /sql/2.0.creKafkaSource.sql
+	docker compose exec jobmanager /opt/flink/bin/sql-client.sh -f /sql/2.1.creMQTTSource.sql
 
 targets:
-	docker compose exec jobmanager /opt/flink/bin/sql-client.sh -f /sql/2.1.creFlussTargets.sql
-#	docker compose exec jobmanager /opt/flink/bin/sql-client.sh -f /sql/2.2.crePromTargets.sql
+	docker compose exec jobmanager /opt/flink/bin/sql-client.sh -f /sql/2.2.creFlussTargets.sql
+	docker compose exec jobmanager /opt/flink/bin/sql-client.sh -f /sql/2.3.crePromTargets.sql
 
 inserts:
-	docker compose exec jobmanager /opt/flink/bin/sql-client.sh -f /sql/3.1.creFlussInserts.sql
-#	docker compose exec jobmanager /opt/flink/bin/sql-client.sh -f /sql/3.2.crePromInserts.sql
+	docker compose exec jobmanager /opt/flink/bin/sql-client.sh -f /sql/3.2.creFlussInserts.sql
+	docker compose exec jobmanager /opt/flink/bin/sql-client.sh -f /sql/3.3.crePromInserts.sql
 
 lakehouse:
 	docker compose exec coordinator-server /bin/bash -f /shell/4.runLakehouse.bsh
+
 
 # Run Python app  101,104
 rp1:
@@ -109,12 +106,12 @@ start:
 
 down:	
 	docker compose down
-	cd data/flink; rm -rf checkpoints logs rocksdb
-	cd data/fluss; rm -rf *
-#	cd data/grafana; rm -rf *
-	cd data/paimon; rm -rf *
-	cd data/postgres; rm -rf *
-#	cd data/prometheus; rm -rf *
+	cd data/; rm -rf mqtt
+	cd data/; rm -rf flink
+	cd data/; rm -rf fluss
+	cd data/; rm -rf paimon
+	cd data/; rm -rf postgres
+	cd data/; rm -rf prometheus
 
 ps:
 	docker compose ps

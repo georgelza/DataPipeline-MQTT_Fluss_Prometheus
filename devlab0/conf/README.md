@@ -20,5 +20,5 @@ Various confguratin files either push/mounted to a target file inside containers
 
 9. Hadoop.env               -   Hadoop settings.
 
-10. Confluent Kafka         -   Kafka Cluster
+10. Mosquito MQTT Broker    -   MQTT Broker
 

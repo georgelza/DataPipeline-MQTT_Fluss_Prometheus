@@ -12,7 +12,7 @@
 #   Modified            :   12 April 2025
 #
 #   Changelog           :   Modified from original from previous blog that posted to Mongo and 2nd Previus posted to Kafka
-#                       :   to now to post to
+#                       :   to now to post to MQTT
 #
 #   JSON Viewer         :   https://jsonviewer.stack.hu
 #
@@ -96,10 +96,10 @@ def generate_payload(logger, site, device, sensor, current_time, time_zone_offse
     payload = {
         "ts": ts,  # Timestamp now includes the correct timezone
         "metadata": {
-            "siteId":   site["siteId"],
-            "deviceId": device["deviceId"],
-            "sensorId": sensor["sensorId"],
-            "unit":     sensor["unit"],
+             "siteId":   site["siteId"]
+            ,"deviceId": device["deviceId"]
+            ,"sensorId": sensor["sensorId"]
+            ,"unit":     sensor["unit"]
         },
         "measurement": measurement
     }
@@ -270,13 +270,13 @@ def progress_value(logger, sensor, current_time_local, sfd_start_time_str, sfd_e
     new_value = round(max(min_value, min(new_value, max_value)), 4)
     
     logger.debug(" {sensorId}, {current_time_local_time}, {min_range},  {max_range}  {sd}  {mean} {new_value}".format(
-        sensorId                = sensor["sensorId"],
-        current_time_local_time = current_time_local_time,
-        min_range               = min_value,
-        max_range               = max_value,
-        sd                      = sd,
-        mean                    = mean,
-        new_value               = new_value
+         sensorId                = sensor["sensorId"]
+        ,current_time_local_time = current_time_local_time
+        ,min_range               = min_value
+        ,max_range               = max_value
+        ,sd                      = sd
+        ,mean                    = mean
+        ,new_value               = new_value
     ))
     
     return new_value
@@ -289,9 +289,10 @@ Function to run simulation for a specific site, this is main body of the generat
 """
 def run_simulation(site, current_time, config_params):
     
-    topic       = config_params["TOPIC"]
+    topic       = config_params["MQTT_TOPIC"]+"/"+str(site["siteId"])
     mode        = config_params["MODE"]
     flush_size  = config_params["BATCH_SIZE"]
+    
     
     if flush_size > 0:
         mode        = 1         # save Many
@@ -334,9 +335,9 @@ def run_simulation(site, current_time, config_params):
     # end if
 
                   
-    connection_saver    = connection.createKafkaProducer(config_params, site["siteId"], logger)      
+    connection_saver    = connection.createProducer(config_params, site, logger)      
     if connection_saver == -1:
-        logger.critical(f"SiteId: {str(site["siteId"])} - run_simulation.connection.createKafkaProducer Failed, exiting.")
+        logger.critical(f"SiteId: {str(site["siteId"])} - run_simulation.connection.createProducer Failed, exiting.")
         sys.exit(1)
                                 
     # end if
@@ -375,7 +376,7 @@ def run_simulation(site, current_time, config_params):
                     for sensor in device["sensors"]:
                         
                         payload = generate_payload(logger, site, device, sensor, oldest_time, site_time_zone, config_params)
-                        
+
                         sensor["last_value"] = payload["measurement"]
 
                         historical_record_counter   += 1
@@ -387,14 +388,14 @@ def run_simulation(site, current_time, config_params):
                             payloadset.append(payload)
     
                             if batch_flush_counter == flush_size:
-                                kafka_result        = connection.postToKafka(connection_saver, site["siteId"], mode, payloadset, topic, logger)
+                                MQTT_result        = connection.mqtt_publish(connection_saver, payloadset, topic, mode, logger)
                                 
                                 batch_flush_counter = 0
                                 payloadset          = []
 
                         #single record posting.
                         else:
-                            kafka_result  = connection.postToKafka(connection_saver, site["siteId"], mode, payload, topic, logger)
+                            MQTT_result  = connection.mqtt_publish(connection_saver, payload, topic, mode, logger)
                             
                         #end if                   
                     # end for
@@ -405,15 +406,20 @@ def run_simulation(site, current_time, config_params):
             # end while
             
             logger.info("simulate.run_simulation - COMPLETED Historical Phase, Started from {historic_data_start_datetime}, Created {historical_record_counter} records".format(
-                historic_data_start_datetime = site["historic_data_start_datetime"],
-                historical_record_counter    = historical_record_counter
+                 historic_data_start_datetime = site["historic_data_start_datetime"]
+                ,historical_record_counter    = historical_record_counter
             ))     
 
             step1endtime = datetime.now()
             step1end     = perf_counter()
             step1time    = step1end - step1start  
             histrate     = str( round(historical_record_counter/step1time, 2))
-
+        
+            # Post last batch of records in our payload variable to our connection store
+            if mode == 1:   
+                MQTT_result  = connection.mqtt_publish(connection_saver, payloadset, topic, mode, logger)
+                    
+            # end if
         # end Historical phase
     #end if 
 
@@ -445,7 +451,7 @@ def run_simulation(site, current_time, config_params):
             for device in site["devices"]:
                 for sensor in device["sensors"]:
     
-                    payload = generate_payload(site, device, sensor, current_loop_time, site_time_zone, config_params)
+                    payload = generate_payload(logger, site, device, sensor, current_loop_time, site_time_zone, config_params)
 
                     sensor["last_value"] = payload["measurement"]
 
@@ -458,13 +464,13 @@ def run_simulation(site, current_time, config_params):
                         payloadset.append(payload)
  
                         if batch_flush_counter == flush_size:
-                            result              = connection.postToKafka(connection_saver, site["siteId"], mode, payloadset, topic, logger)
+                            MQTT_result         = connection.mqtt_publish(connection_saver, payloadset, topic, mode, logger)
                             batch_flush_counter = 0
                             payloadset          = []
 
                     #single record posting.
                     else:
-                        result  = connection.postToKafka(connection_saver, site["siteId"], mode, payload, topic, logger)
+                        MQTT_result = connection.mqtt_publish(connection_saver, payload, topic, mode, logger)
 
                     #end if     
                 # end for
@@ -476,9 +482,11 @@ def run_simulation(site, current_time, config_params):
         
         # Post last batch of records in our payload variable to our connection store
         if mode == 1:   
-            result  = connection.postToKafka(connection_saver, site["siteId"], mode, payloadset, topic, logger)
+            MQTT_result  = connection.mqtt_publish(connection_saver, payloadset, topic, mode, logger)
                 
         # end if
+        
+        connection.mqtt_close(connection_saver, site["siteId"], logger)
         
         step2endtime = datetime.now()
         step2end     = perf_counter()
@@ -491,11 +499,11 @@ def run_simulation(site, current_time, config_params):
     if config_params["RUNHISTORIC"] == 1:
         if "historic_data_start_datetime" in site and site["historic_data_start_datetime"]:
             logger.info("simulate.run_simulation - Historical Record Process Stats - St: {start}, Et: {end}, Rt: {runtime}, Recs: {historical_record_counter} docs, Rate: {histrate} docs/s".format(
-                start                     = str(step1starttime.strftime("%Y-%m-%d %H:%M:%S.%f")),
-                end                       = str(step1endtime.strftime("%Y-%m-%d %H:%M:%S.%f")),
-                runtime                   = str(round(step1time, 4)),
-                historical_record_counter = historical_record_counter,
-                histrate                  = histrate
+                 start                     = str(step1starttime.strftime("%Y-%m-%d %H:%M:%S.%f"))
+                ,end                       = str(step1endtime.strftime("%Y-%m-%d %H:%M:%S.%f"))
+                ,runtime                   = str(round(step1time, 4))
+                ,historical_record_counter = historical_record_counter
+                ,histrate                  = histrate
             ))
         # end if
     # end if
@@ -503,11 +511,11 @@ def run_simulation(site, current_time, config_params):
     # Current phase stats
     if site["reccap"] > 0: 
         logger.info("simulate.run_simulation - Current Record Process Stats    - St: {start}, Et: {end}, Rt: {runtime}, Recs: {current_record_counter} docs,    Rate: {currate}  docs/s".format(
-            start                  = str(step2starttime.strftime("%Y-%m-%d %H:%M:%S.%f")),
-            end                    = str(step2endtime.strftime("%Y-%m-%d %H:%M:%S.%f")),
-            runtime                = str(round(step2time, 4)),
-            current_record_counter = current_record_counter,
-            currate                = currate
+             start                  = str(step2starttime.strftime("%Y-%m-%d %H:%M:%S.%f"))
+            ,end                    = str(step2endtime.strftime("%Y-%m-%d %H:%M:%S.%f"))
+            ,runtime                = str(round(step2time, 4))
+            ,current_record_counter = current_record_counter
+            ,currate                = currate
         ))
     # end if
     
@@ -515,9 +523,9 @@ def run_simulation(site, current_time, config_params):
     # Final stats
     if config_params["RUNHISTORIC"] == 1: 
         logger.info("simulate.run_simulation - COMPLETED Simulation            - Records: {historical_record_counter} + {current_record_counter} = {total_record_counter} records".format(
-            historical_record_counter = historical_record_counter,
-            current_record_counter    = current_record_counter,
-            total_record_counter      = total_record_counter
+            historical_record_counter = historical_record_counter
+            ,current_record_counter    = current_record_counter
+            ,total_record_counter      = total_record_counter
         ))
     
     else:

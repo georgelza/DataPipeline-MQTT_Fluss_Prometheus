@@ -116,6 +116,9 @@ def configparams():
     config_params["MQTT_USERNAME"]      = os.environ["MQTT_USERNAME"]
     config_params["MQTT_PASSWORD"]      = os.environ["MQTT_PASSWORD"]
         
+    config_params["MODE"]               = int(os.environ["MODE"])
+    config_params["BATCH_SIZE"]         = int(os.environ["BATCH_SIZE"])
+
     config_params["SEEDFILE"]           = os.environ["SEEDFILE"]
     config_params["SITEIDS"]            = os.environ["SITEIDS"].split(",")
 
@@ -163,6 +166,9 @@ def echo_config(config_params, logger):
     logger.info("* MQTT Broker Client TAG            : " + config_params["MQTT_CLIENTTAG"])
     logger.info("* MQTT Broker Username              : " + config_params["MQTT_USERNAME"])
     logger.info("* MQTT Root Topic                   : " + config_params["MQTT_TOPIC"])
+
+    logger.info("* MODE                              : " + str(config_params["MODE"]))
+    logger.info("* BATCH_SIZE                        : " + str(config_params["BATCH_SIZE"]))
 
     logger.info("* Log Root                          : " + config_params["LOGDIR"])
     

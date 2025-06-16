@@ -20,10 +20,10 @@ __copyright__   = "Copyright 2025, George Leonard"
 
 #Libraries
 import paho.mqtt.client as mqtt
-import sys
+import sys, json
 from datetime import datetime
 import socket
-
+import utils
 
 
 def on_connect(client, userdata, flags, rc):
@@ -59,7 +59,7 @@ def on_publish(client, userdata, mid):
 
     
 ############# Instantiate a connection to the MQTT Server ##################
-def mqtt_connect(config_params, site, logger):
+def createProducer(config_params, site, logger):
 
     
     # Configure the Mqtt connection etc.
@@ -75,9 +75,9 @@ def mqtt_connect(config_params, site, logger):
     
         
     logger.info('{time}, connection.connect - ch: {clienttag} Creating connection to MQTT for {siteId}... '.format(
-        time        = str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")),
-        siteId      = site["siteId"],
-        clienttag   = clienttag,
+         time        = str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
+        ,siteId      = site["siteId"]
+        ,clienttag   = clienttag,
     ))
         
     try:
@@ -97,56 +97,56 @@ def mqtt_connect(config_params, site, logger):
         
         
         logger.info("{time}, connection.connect - Connection to MQTT Configured Successfully... Client: {clienttag}, Broker: {broker}, Port: {port}".format(
-            time        = str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")),
-            clienttag   = clienttag,
-            broker      = broker,
-            port        = port,
+            time        = str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
+            ,clienttag   = clienttag
+            ,broker      = broker
+            ,port        = port
         ))
 
     except socket.gaierror:
         logger.info("{time}, connection.connect - Error - DNS resolution failed – is the broker hostname correct?... Client: {clienttag}, Broker: {broker}, Port: {port}".format(
-            time        = str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")),
-            clienttag   = clienttag,
-            broker      = broker,
-            port        = port,
+             time        = str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
+            ,clienttag   = clienttag
+            ,broker      = broker
+            ,port        = port,
         ))
         return -1
 
     except ConnectionRefusedError:
         logger.info("{time}, connection.connect - Error - Connection was refused – is the port open? Is the broker running... Client: {clienttag}, Broker: {broker}, Port: {port}".format(
-            time        = str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")),
-            clienttag   = clienttag,
-            broker      = broker,
-            port        = port,
+             time        = str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
+            ,clienttag   = clienttag
+            ,broker      = broker
+            ,port        = port
         ))  
         return -1
 
     except TimeoutError:
         logger.info("{time}, connection.connect - Error - Connection timed out – broker might be unreachable... Client: {clienttag}, Broker: {broker}, Port: {port}".format(
-            time        = str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")),
-            clienttag   = clienttag,
-            broker      = broker,
-            port        = port,
+             time        = str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
+            ,clienttag   = clienttag
+            ,broker      = broker
+            ,port        = port
         ))  
         return -1
 
     except OSError as e:
         logger.info("{time}, connection.connect - Error - OS error occurred... Client: {clienttag}, Broker: {broker}, Port: {port}, Error: {err}".format(
-            time        = str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")),
-            clienttag   = clienttag,
-            broker      = broker,
-            port        = port,
-            err         = err
+             time        = str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
+            ,clienttag   = clienttag
+            ,broker      = broker
+            ,port        = port
+            ,err         = err
         ))  
         return -1
 
     except Exception as err:
         logger.critical("{time}, connection.connect - Error - Unexpected Connection Err to Broker Failed... Client: {clienttag}, Broker: {broker}, Port: {port}, Err: {err}".format(
-            time        = str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")),
-            clienttag   = clienttag,
-            broker      = broker,
-            port        = port,
-            err         = err,
+             time        = str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
+            ,clienttag   = clienttag
+            ,broker      = broker
+            ,port        = port
+            ,err         = err
         ))
         return -1
 
@@ -169,30 +169,51 @@ def on_disconnect(client, userdata, flags, rc=0):
 #end on_disconnect
 
 
-def mqtt_publish(client, payload, topic, logger):
+def mqtt_publish(connection, payload, topic, mode, logger):
+    
+    if connection is None:
+        logger.error("MQTT producer is None, skipping produce.")
+        
+    else:
+    
+        try:
+            if mode == 0:                                        
+                result = connection.publish(topic, json.dumps(payload), 0)           # QoS = 0
+                
+                logger.debug("{time}, connection.mqtt_publish - Publish msg to topic: {topic}, Completed: {result}".format(
+                     time        = str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
+                    ,topic       = topic
+                    ,result      = result
+                ))  
+                
+                return result
             
-    try:
+            else:
+                x      = 0
+                for val in payload:           
+                    result = connection.publish(topic, json.dumps(val), 0)             # QoS = 0
+                    x += 1
 
-        result = client.publish(topic, str(payload), 0)           # QoS = 0
+                #end for
+                logger.debug("{time}, connection.mqtt_publish - Published {x} msgs to topic: {topic}, Completed: {result}".format(
+                    time        = str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
+                    ,x           = x
+                    ,topic       = topic
+                    ,result      = result
+                ))  
+            #end if
+            return 1
+        
+        except Exception as err:
+            logger.critical('{time}, connection.mqtt_publish - Publish topic: {topic}, Failed !!!: {err}'.format(
+                 time        = str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
+                ,topic       = topic
+                ,err         = err
+            ))
+        
+            return 0
             
-        logger.debug("{time}, connection.publish - MQTT Publish topic: {topic}, Completed: {result}".format(
-            time        = str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")),
-            topic       = topic,
-            result      = result,
-        ))  
-        
-        return result
-    
-    except Exception as err:
-        logger.critical('{time}, connection.publish - MQTT Publish topic: {topic}, Failed !!!: {err}'.format(
-            time        = str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")),
-            topic       = topic,
-            err         = mqtt.error_string(result.rc)
-        ))
-    
-        return 0
-        
-    # end try
+        # end try
 #end publish
 
 
@@ -202,16 +223,16 @@ def mqtt_close(client, siteId, logger):
 
         client.disconnect()
         
-        logger.debug('{time},  connection.close - Connection to MQTT for Site: {siteId} to MQTT Closed... '.format(
-            time    = str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")),
-            siteId  = siteId
+        logger.debug('{time},  connection.mqtt_close - Connection Close for Site: {siteId} to MQTT Succeeded... '.format(
+             time    = str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
+            ,siteId  = siteId
         ))
         
     except Exception as err:
-        logger.critical('{time}, connection.close - Connection Close for Site: {siteId} to MQTT Failed... {err}'.format(
-            time    = str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")),
-            siteId  = siteId,
-            err     = err
+        logger.critical('{time}, connection.mqtt_close - Connection Close for Site: {siteId} to MQTT Failed... {err}'.format(
+             time    = str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
+            ,siteId  = siteId
+            ,err     = err
         ))
 
         sys.exit(-1)
@@ -247,8 +268,8 @@ def createFileConnection(filename, siteId, logger):
                        
     except IOError as err:
         logger.critical('connection.createFileConnection - {siteId} - FAILED Err: {err} '.format(
-            siteId = siteId,
-            err    = err
+             siteId = siteId
+            ,err    = err
         ))
         
         return -1
@@ -279,9 +300,9 @@ def writeToFile(file, siteId, mode, payload, logger):
    
     except IOError as err:
         logger.error('connection.writeToFile - {siteId} - mode {mode} - FAILED, Err: {err}'.format(
-            siteId = siteId,
-            mode   = mode,
-            err    = err
+             siteId = siteId
+            ,mode   = mode
+            ,err    = err
         ))
         
         return -1
@@ -301,8 +322,8 @@ def closeFileConnection(file, siteId, logger):
             
         except IOError as err:
             logger.error('connection.closeFileConnection - {siteId} - FAILED, Err: {err}'.format(
-                siteId = siteId,
-                err    = err
+                 siteId = siteId
+                ,err    = err
             ))
                         
         # end try

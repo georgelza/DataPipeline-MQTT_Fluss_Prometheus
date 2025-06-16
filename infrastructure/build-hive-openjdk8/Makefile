@@ -7,13 +7,15 @@ HIVE_VERSION=3.1.3
 
 define HELP
 
+Based on Ubuntu 24.04 / OpenJDK 8 / Apache Hadoop 3.3.8
+
 Available commands:
 
-- basehadoop: Build the Apache Hadoop base image project
+- buildhadoopbase: Build the Apache Hadoop base image project
 
-- basehive: Build the Apache Hive base image project
+- buildbasehive: Build the Apache Hive base image project
 
-- build: Build this project
+- build: Build above 2, the completes project
 
 - run: Run the project
 
@@ -45,16 +47,15 @@ ifdef CUSTOM_CA
 	cp -rf $(CUSTOM_CA)/* ca_certificates/ || cp -f $(CUSTOM_CA) ca_certificates/
 endif
 
+buildhadoopbase:
+	docker build --build-arg REPO_NAME=${REPO_NAME} -t ${REPO_NAME}/hadoop-base-$(HADOOP_VERSION)-java8:$(VERSION) ./base --no-cache 
 
-basehadoopx:
-	docker build --build-arg REPO_NAME=${REPO_NAME} -t ${REPO_NAME}/hadoop-base-$(HADOOP_VERSION)-java8:$(VERSION) ./basehadoop
+buildbasehive:
+	docker build --build-arg REPO_NAME=${REPO_NAME} -t ${REPO_NAME}/hive-base-$(HIVE_VERSION)-java8:$(VERSION) ./basehive --no-cache 
 
-basehivex:
-	docker build --build-arg REPO_NAME=${REPO_NAME} -t ${REPO_NAME}/hive-base-$(HIVE_VERSION)-java8:$(VERSION) ./basehive 
-
-build:  basehadoopx basehivex		
-	docker build --build-arg REPO_NAME=${REPO_NAME} -t ${REPO_NAME}/hive-metastore-$(HIVE_VERSION)-java8:$(VERSION) ./hive-metastore 
-	docker build --build-arg REPO_NAME=${REPO_NAME} -t ${REPO_NAME}/hive-hiveserver2-$(HIVE_VERSION)-java8:$(VERSION) ./hive-hiveserver2
+build:  buildhadoopbase buildbasehive
+	docker build --build-arg REPO_NAME=${REPO_NAME} -t ${REPO_NAME}/hive-metastore-$(HIVE_VERSION)-java8:$(VERSION) ./hive-metastore --no-cache 
+	docker build --build-arg REPO_NAME=${REPO_NAME} -t ${REPO_NAME}/hive-hiveserver2-$(HIVE_VERSION)-java8:$(VERSION) ./hive-hiveserver2 --no-cache 
 	
 run:
 	docker compose -p ${COMPOSE_PROJECT_NAME} up -d

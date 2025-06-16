@@ -33,7 +33,7 @@ services:
 
 # Eclips Misquito Broker
   mqtt_broker_north:
-    image: eclipse-mosquitto:latest
+    image: eclipse-mosquitto:2.0.21
     container_name: broker_north
     hostname: broker_north
     ports: 
@@ -44,22 +44,22 @@ services:
       - ./data/mqtt/north/log:/mosquitto/log
 
   mqtt_broker_south:
-    image: eclipse-mosquitto:latest
+    image: eclipse-mosquitto:2.0.21
     container_name: broker_south
     hostname: broker_south
     ports: 
-      - 1884:1884
+      - 1884:1883
     volumes:
       - ./conf/mqtt/south:/mosquitto/config
       - ./data/mqtt/south/data:/mosquitto/data
       - ./data/mqtt/south/log:/mosquitto/log
 
   mqtt_broker_east:
-    image: eclipse-mosquitto:latest
+    image: eclipse-mosquitto:2.0.21
     container_name: broker_east
     hostname: broker_east
     ports: 
-      - 1885:1885
+      - 1885:1883
     volumes:
       - ./conf/mqtt/east:/mosquitto/config
       - ./data/mqtt/east/data:/mosquitto/data
@@ -71,6 +71,10 @@ services:
   # NOTE: the volumes are knowingly over configured... I'm mapping ./data/fluss
   # cs/fluss to /tp/fluss and cd/paimon to /tmp/paimon so that I can observe
   # what is written there.
+  #
+  # Fluss properties are added to the contents of server.yaml, see
+  # https://alibaba.github.io/fluss-docs/docs/maintenance/configuration/
+  #
   coordinator-server:
     image: fluss/fluss:0.6.0
     container_name: coordinator-server
@@ -187,7 +191,7 @@ services:
       - 8083:8081
     environment:
       - env.log.level=DEBUG
-
+     
     volumes:
       - ./data/paimon:/tmp/paimon
       - ./creFlinkFlows:/sql
@@ -200,6 +204,7 @@ services:
       - ./conf/flink/lib/hive:/opt/flink/lib/hive
       - ./conf/flink/lib/fluss:/opt/flink/lib/fluss
       - ./conf/flink/lib/flink:/opt/flink/lib/flink
+
     configs:
       - source: flink-conf
         target: /opt/flink/conf/config.yaml
@@ -235,6 +240,7 @@ services:
       - ./conf/flink/lib/hive:/opt/flink/lib/hive
       - ./conf/flink/lib/fluss:/opt/flink/lib/fluss
       - ./conf/flink/lib/flink:/opt/flink/lib/flink
+
     configs:
       - source: flink-conf
         target: /opt/flink/conf/config.yaml
@@ -504,7 +510,7 @@ services:
 # in the Volumes, you can point all the configs to the single app_iot1/conf and commond share it or you can 
 # place a site specific config file into each folder and then configure each of the data gens to use it's own specific
 # configuration file
-  iot1_mqtt:
+  iot1:
     image: georgelza/iot_datagen:4.0
     hostname: iot1_mqtt
     container_name: iot1_mqtt
@@ -525,10 +531,10 @@ services:
       DEVICETYPE: 0
 
     volumes:
-      - ../app_mqttiot1/conf/:/app/conf
-      - ../app_mqttiot1/logs/:/app/logs
+      - ../app_iot1/conf/:/app/conf
+      - ../app_iot1/logs/:/app/logs
 
-  iot2_mqtt:
+  iot2:
     image: georgelza/iot_datagen:4.0
     hostname: iot2_mqtt
     container_name: iot2_mqtt
@@ -549,10 +555,10 @@ services:
       DEVICETYPE: 0
 
     volumes:
-      - ../app_mqttiot2/conf/:/app/conf
-      - ../app_mqttiot2/logs/:/app/logs
+      - ../app_iot2/conf/:/app/conf
+      - ../app_iot2/logs/:/app/logs
 
-  iot3_mqtt:
+  iot3:
     image: georgelza/iot_datagen:4.0
     hostname: iot3_mqtt
     container_name: iot3_mqtt
@@ -573,8 +579,8 @@ services:
       DEVICETYPE: 1
 
     volumes:
-      - ../app_mqttiot3/conf/:/app/conf
-      - ../app_mqttiot3/logs/:/app/logs
+      - ../app_iot3/conf/:/app/conf
+      - ../app_iot3/logs/:/app/logs
 
 
 # Without a network explicitly defined, you hit this Hive/Thrift error

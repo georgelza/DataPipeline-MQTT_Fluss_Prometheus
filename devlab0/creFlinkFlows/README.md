@@ -3,38 +3,28 @@
 
 1. 1.creCat.sql
 
-    Will create the Hive & Fluss catalog.
+    Will create the Hive & Fluss catalog and contained databases.
 
     - hive_catalog
-    - kafka database inside hive_catalog
-    - prometheus database inside hive_catalog
-    - fluss_catalog, we will use `fluss` as our default database.
+    - mqtt database inside hive_catalog.
+    - prometheus database inside hive_catalog.
+    - fluss_catalog
+    - fluss database inside fluss_catalog.
 
-2. 2.0.crePromSource.sql
 
-    - ....
-
-3. 2.1.creKafkaSource.sql
+2. 2.1.creMQTTSource.sql
 
     - ...
   
-4. 2.2.creFlussTarget.sql
+3. 2.2.creFlussTarget.sql
 
     ...
 
-5. 2.3.crePromTargets.sql
-
-   ...
-
-6. 3.0.creCurlPromPublish.bsh
-   
-   ...
-   
-7. 3.0.crePromInserts.sql
+4. 2.3.crePromTargets.sql
 
   ...
 
-7. 3.2.creFlussInserts.sql
+1. 3.2.creFlussInserts.sql
 
   ...
 

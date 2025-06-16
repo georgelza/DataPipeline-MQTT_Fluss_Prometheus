@@ -1,0 +1,639 @@
+[
+  {
+    "siteId": 107,
+    "name": "East London",
+    "console_debuglevel": 1,
+    "file_debuglevel": 0,
+    "data_persistence": 2,
+    "location": {"latitude": -33.0194, "longitude": 27.9054},
+    "time_zone": "+2:00",
+    "historic_data_start_datetime": "2024-10-15T08:00",
+    "reccap": 300,
+    "flush_size": 150,
+    "sleeptime": 3000,
+    "devices": [
+      {
+        "deviceId": 10701,
+        "deviceType": "Electric Oven",
+        "stabilityFactor": 90,
+        "sfd_start_time": "14:00",
+        "sfd_end_time": "14:30",
+        "sensors": [
+          {"sensorId": 1070101, "min_range": 60, "max_range": 80, "unit": "Celcius", "sensorType": "temperature", "sd": 5, "mean": 70},
+          {"sensorId": 1070102, "min_range": 70, "max_range": 100, "unit": "Celcius", "sensorType": "temperature", "sd": 10, "mean": 80},
+          {"sensorId": 1070103, "min_range": 14, "max_range": 56, "unit": "Psi", "sensorType": "pressure", "sd": 5, "mean": 40}
+        ]
+      },
+      {
+        "deviceId": 10702,
+        "deviceType": "Gas Oven",
+        "stabilityFactor": 50,
+        "sfd_start_time": "12:00",
+        "sfd_end_time": "16:00",	      
+        "sensors": [
+          {"sensorId": 1070201, "min_range": 600, "max_range": 800, "unit": "Celcius", "sensorType": "temperature", "sd": 20, "mean": 700},
+          {"sensorId": 1070202, "min_range": 160, "max_range": 200, "unit": "Celcius", "sensorType": "temperature", "sd": 10, "mean": 180},
+          {"sensorId": 1070203, "min_range": 28, "max_range": 56, "unit": "Psi", "sensorType": "pressure", "sd": 10, "mean": 100},
+          {"sensorId": 1070205, "min_range": 5, "max_range": 15, "unit": "Liter", "sensorType": "volume", "sd": 4, "mean": 10},
+          {"sensorId": 1070405, "min_range": 2000, "max_range": 3000, "unit": "L/min", "sensorType": "flow_rate", "sd": 30, "mean": 2400}
+        ]
+      },
+      {
+        "deviceId": 10703,
+        "deviceType": "Oil_Pump",
+        "stabilityFactor": 60,
+        "sfd_start_time": "11:40",
+        "sfd_end_time": "16:00",
+        "sensors": [
+          {"sensorId": 1070301, "min_range": 60, "max_range": 100, "unit": "Celcius", "sensorType": "temperature", "sd": 5, "mean": 75},
+          {"sensorId": 1070302, "min_range": 60, "max_range": 100, "unit": "Celcius", "sensorType": "temperature", "sd": 10, "mean": 75},
+          {"sensorId": 1070303, "min_range": 28, "max_range": 56, "unit": "Psi", "sensorType": "pressure", "sd": 10, "mean": 35},
+          {"sensorId": 1070304, "min_range": 2500, "max_range": 3000, "unit": "RPM", "sensorType": "revolutions", "sd": 100, "mean": 2750}            
+        ]
+      },
+      {
+        "deviceId": 10704,
+        "deviceType": "Fuel_Pump",
+        "stabilityFactor": 55,
+        "sfd_start_time": "12:05",
+        "sfd_end_time": "15:35",
+        "sensors": [
+          {"sensorId": 1070401, "min_range": 750, "max_range": 1000, "unit": "Celcius", "sensorType": "temperature", "sd": 30, "mean": 825},
+          {"sensorId": 1070402, "min_range": 850, "max_range": 950, "unit": "Celcius", "sensorType": "temperature", "sd": 10, "mean": 900},
+          {"sensorId": 1070403, "min_range": 2000, "max_range": 2400, "unit": "Psi", "sensorType": "pressure", "sd": 100, "mean": 2200},
+          {"sensorId": 1070404, "min_range": 100, "max_range": 140, "unit": "BAR", "sensorType": "pressure", "sd": 10, "mean": 120},
+          {"sensorId": 1070405, "min_range": 28, "max_range": 56, "unit": "Psi", "sensorType": "pressure", "sd": 10, "mean": 42},
+          {"sensorId": 1070401, "min_range": 200, "max_range": 250, "unit": "Celcius", "sensorType": "temperature", "sd": 10, "mean": 230},
+          {"sensorId": 1070405, "min_range": 6, "max_range": 12, "unit": "L/min", "sensorType": "flow_rate", "sd": 4, "mean": 10}
+        ]
+      },
+      {
+        "deviceId": 10705,
+        "deviceType": "Water_Pump",
+        "stabilityFactor": 65,
+        "sfd_start_time": "12:20",
+        "sfd_end_time": "16:15",	      
+        "sensors": [
+          {"sensorId": 1070501, "min_range": 200, "max_range": 300, "unit": "BAR", "sensorType": "pressure", "sd": 20, "mean": 250},
+          {"sensorId": 1070502, "min_range": 400, "max_range": 500, "unit": "BAR", "sensorType": "pressure", "sd": 20, "mean": 440},
+          {"sensorId": 1070503, "min_range": 2500, "max_range": 3000, "unit": "RPM", "sensorType": "revolutions", "sd": 20, "mean": 2700},
+          {"sensorId": 1070504, "min_range": 200, "max_range": 300, "unit": "L/min", "sensorType": "flow_rate", "sd": 10, "mean": 240}
+        ]
+      }
+    ]
+  },
+
+  
+  {
+    "siteId": 108,
+    "name": "Richards Bay",
+    "console_debuglevel": 1,
+    "file_debuglevel": 0,
+    "data_persistence": 2,
+    "location": {"latitude": -28.7566, "longitude": 32.0430},
+    "time_zone": "+2:00",
+    "historic_data_start_datetime": "2024-04-20T18:00",
+    "reccap": 200,
+    "flush_size": 50,
+    "sleeptime": 2000,
+    "devices": [
+      {
+        "deviceId": 10801,
+        "deviceType": "Water_Pump",
+        "stabilityFactor": 65,
+        "sfd_start_time": "10:00",
+        "sfd_end_time": "14:00",	      
+        "sensors": [
+          {"sensorId": 1080101, "min_range": 600, "max_range": 900, "unit": "Celcius", "sensorType": "temperature", "sd": 50, "mean": 800},
+          {"sensorId": 1080102, "min_range": 56, "max_range": 100, "unit": "Psi", "sensorType": "pressure", "sd": 10, "mean": 70},
+          {"sensorId": 1080103, "min_range": 1000, "max_range": 1500, "unit": "RPM", "sensorType": "revolutions", "sd": 40, "mean": 1300},
+          {"sensorId": 1080104, "min_range": 150, "max_range": 200, "unit": "Liter", "sensorType": "flow_rate", "sd": 15, "mean": 180}
+        ]
+      },
+      {
+        "deviceId": 10802,
+        "deviceType": "Fuel_Pump",
+        "stabilityFactor": 55,
+        "sfd_start_time": "11:00",
+        "sfd_end_time": "15:00",	      
+        "sensors": [
+          {"sensorId": 1080201, "min_range": 40, "max_range": 50, "unit": "Celcius", "sensorType": "temperature", "sd": 4, "mean": 45},
+          {"sensorId": 1080202, "min_range": 200, "max_range": 300, "unit": "Celcius", "sensorType": "temperature", "sd": 20, "mean": 250},
+          {"sensorId": 1080203, "min_range": 14, "max_range": 28, "unit": "Psi", "sensorType": "pressure", "sd": 10, "mean": 20},
+          {"sensorId": 1080204, "min_range": 2500, "max_range": 3000, "unit": "RPM", "sensorType": "revolutions", "sd": 20, "mean": 2700},
+          {"sensorId": 1080205, "min_range": 20, "max_range": 30, "unit": "Liter", "sensorType": "flow_rate", "sd": 5, "mean": 25}
+        ]
+      },
+      {
+        "deviceId": 10803,
+        "deviceType": "Gas_Oven",
+        "stabilityFactor": 85,
+        "sfd_start_time": "12:00",
+        "sfd_end_time": "16:00",	      
+        "sensors": [
+          {"sensorId": 1080301, "min_range": 3500, "max_range": 4500, "unit": "Celcius", "sensorType": "temperature", "sd": 30, "mean": 4000},
+          {"sensorId": 1080302, "min_range": 4000, "max_range": 6000, "unit": "Celcius", "sensorType": "temperature", "sd": 50, "mean": 4800},
+          {"sensorId": 1080303, "min_range": 20, "max_range": 30, "unit": "Liter", "sensorType": "flow_rate", "sd": 5, "mean": 25}
+        ]
+      },
+      {
+        "deviceId": 10804,
+        "deviceType": "Water_Pump",
+        "stabilityFactor": 80,
+        "sfd_start_time": "09:45",
+        "sfd_end_time": "15:25",	      
+        "sensors": [
+          {"sensorId": 1080401, "min_range": 600, "max_range": 900, "unit": "Celcius", "sensorType": "temperature", "sd": 50, "mean": 800},
+          {"sensorId": 1080402, "min_range": 56, "max_range": 100, "unit": "Psi", "sensorType": "pressure", "sd": 10, "mean": 70},
+          {"sensorId": 1080403, "min_range": 1000, "max_range": 1500, "unit": "RPM", "sensorType": "revolutions", "sd": 40, "mean": 1300},
+          {"sensorId": 1080404, "min_range": 150, "max_range": 200, "unit": "Liter", "sensorType": "flow_rate", "sd": 15, "mean": 180}
+        ]
+      },
+      {
+        "deviceId": 10805,
+        "deviceType": "Conveyer_Motor",
+        "stabilityFactor": 95,
+        "sfd_start_time": "14:00",
+        "sfd_end_time": "16:00",	      
+        "sensors": [
+          {"sensorId": 1080501, "min_range": 50, "max_range": 70, "unit": "Celcius", "sensorType": "temperature", "sd": 5, "mean": 60},
+          {"sensorId": 1080502, "min_range": 1000, "max_range": 1500, "unit": "RPM", "sensorType": "revolutions", "sd": 20, "mean": 1300},
+          {"sensorId": 1080503, "min_range": 320, "max_range": 380, "unit": "Volt", "sensorType": "voltage", "sd": 10, "mean": 360},
+          {"sensorId": 1080504, "min_range": 20, "max_range": 30, "unit": "Amp", "sensorType": "current", "sd": 4, "mean": 24},          
+          {"sensorId": 1080505, "min_range": 5, "max_range": 10, "unit": "m/s", "sensorType": "vibration", "sd": 3, "mean": 7}
+        ]
+      },
+      {
+        "deviceId": 10806,
+        "deviceType": "Conveyer_Motor",
+        "stabilityFactor": 95,
+        "sfd_start_time": "14:00",
+        "sfd_end_time": "16:00",	      
+        "sensors": [
+          {"sensorId": 1080601, "min_range": 50, "max_range": 70, "unit": "Celcius", "sensorType": "temperature", "sd": 5, "mean": 60},
+          {"sensorId": 1080602, "min_range": 1000, "max_range": 1500, "unit": "RPM", "sensorType": "revolutions", "sd": 20, "mean": 1300},
+          {"sensorId": 1080603, "min_range": 320, "max_range": 380, "unit": "Volt", "sensorType": "voltage", "sd": 10, "mean": 360},
+          {"sensorId": 1080604, "min_range": 20, "max_range": 30, "unit": "Amp", "sensorType": "current", "sd": 4, "mean": 24},          
+          {"sensorId": 1080605, "min_range": 5, "max_range": 10, "unit": "m/s", "sensorType": "vibration", "sd": 3, "mean": 7}
+        ]
+      }
+    ]
+  },
+
+
+  {
+    "siteId": 109,
+    "name": "Mosselbay",
+    "console_debuglevel": 1,
+    "file_debuglevel": 0,
+    "data_persistence": 2,
+    "location": {"latitude": -34.1836, "longitude": 22.1244},
+    "time_zone": "+2:00",
+    "historic_data_start_datetime": "2024-02-01T00:00",
+    "reccap": 500,
+    "flush_size": 250,
+    "sleeptime": 8000,
+    "devices": [
+      {
+        "deviceId": 10901,
+        "deviceType": "Conveyer_Motor",
+        "stabilityFactor": 45,
+        "sfd_start_time": "08:00",
+        "sfd_end_time": "11:00",	      
+        "sensors": [
+          {"sensorId": 1090101, "min_range": 50, "max_range": 70, "unit": "Celcius", "sensorType": "temperature", "sd": 5, "mean": 60},
+          {"sensorId": 1090102, "min_range": 1000, "max_range": 1500, "unit": "RPM", "sensorType": "revolutions", "sd": 20, "mean": 1300},
+          {"sensorId": 1090103, "min_range": 320, "max_range": 380, "unit": "Volt", "sensorType": "voltage", "sd": 10, "mean": 360},
+          {"sensorId": 1090104, "min_range": 20, "max_range": 30, "unit": "Amp", "sensorType": "current", "sd": 4, "mean": 24},          
+          {"sensorId": 1090105, "min_range": 5, "max_range": 10, "unit": "m/s", "sensorType": "vibration", "sd": 3, "mean": 7}
+        ]
+      },
+      {
+        "deviceId": 10902,
+        "deviceType": "Hoist_Motor",
+        "stabilityFactor": 95,
+        "sfd_start_time": "08:00",
+        "sfd_end_time": "09:00",	      
+        "sensors": [
+          {"sensorId": 1090201, "min_range": 60, "max_range": 80, "unit": "Celcius", "sensorType": "temperature", "sd": 10, "mean": 70},
+          {"sensorId": 1090202, "min_range": 2000, "max_range": 2500, "unit": "RPM", "sensorType": "revolutions", "sd": 20, "mean": 2200},
+          {"sensorId": 1090203, "min_range": 320, "max_range": 380, "unit": "Volt", "sensorType": "voltage", "sd": 10, "mean": 360},
+          {"sensorId": 1090204, "min_range": 20, "max_range": 30, "unit": "Amp", "sensorType": "current", "sd": 4, "mean": 24}            
+        ]
+      },
+      {
+        "deviceId": 10903,
+        "deviceType": "Hoist_Motor",
+        "stabilityFactor": 65,
+        "sfd_start_time": "12:00",
+        "sfd_end_time": "14:00",	      
+        "sensors": [
+          {"sensorId": 1090301, "min_range": 60, "max_range": 80, "unit": "Celcius", "sensorType": "temperature", "sd": 10, "mean": 70},
+          {"sensorId": 1090302, "min_range": 200, "max_range": 250, "unit": "RPM", "sensorType": "revolutions", "sd": 10, "mean": 220},
+          {"sensorId": 1090303, "min_range": 320, "max_range": 380, "unit": "Volt", "sensorType": "voltage", "sd": 10, "mean": 360},
+          {"sensorId": 1090304, "min_range": 20, "max_range": 30, "unit": "Amp", "sensorType": "current", "sd": 4, "mean": 24}   
+        ]
+      }
+    ]
+  },
+
+
+  {
+    "siteId": 110,
+    "name": "Saldanha",
+    "console_debuglevel": 1,
+    "file_debuglevel": 0,
+    "data_persistence": 2,
+    "location": {"latitude": -33.0323, "longitude": 17.9219},
+    "time_zone": "+2:00",
+    "historic_data_start_datetime": "2023-10-01T00:00",
+    "reccap": 1500,
+    "flush_size": 250,
+    "sleeptime": 500,
+    "devices": [
+      {
+        "deviceId": 11001,
+        "deviceType": "Fuel_Pump",
+        "stabilityFactor": 65,
+        "sfd_start_time": "13:00",
+        "sfd_end_time": "16:50",	      
+        "sensors": [
+          {"sensorId": 1100101, "min_range": 40, "max_range": 50, "unit": "Celcius", "sensorType": "temperature", "sd": 4, "mean": 45},
+          {"sensorId": 1100102, "min_range": 200, "max_range": 300, "unit": "Celcius", "sensorType": "temperature", "sd": 20, "mean": 250},
+          {"sensorId": 1100103, "min_range": 14, "max_range": 28, "unit": "Psi", "sensorType": "pressure", "sd": 10, "mean": 20},
+          {"sensorId": 1100104, "min_range": 2500, "max_range": 3000, "unit": "RPM", "sensorType": "revolutions", "sd": 20, "mean": 2700},
+          {"sensorId": 1100105, "min_range": 20, "max_range": 30, "unit": "Liter", "sensorType": "flow_rate", "sd": 5, "mean": 25}
+        ]
+      },
+      {
+        "deviceId": 11002,
+        "deviceType": "Gas_Oven",
+        "stabilityFactor": 55,
+        "sfd_start_time": "13:15",
+        "sfd_end_time": "17:00",	      
+        "sensors": [
+          {"sensorId": 1100201, "min_range": 3500, "max_range": 4500, "unit": "Celcius", "sensorType": "temperature", "sd": 30, "mean": 4000},
+          {"sensorId": 1100202, "min_range": 4000, "max_range": 6000, "unit": "Celcius", "sensorType": "temperature", "sd": 50, "mean": 4800},
+          {"sensorId": 1100203, "min_range": 20, "max_range": 30, "unit": "Liter", "sensorType": "flow_rate", "sd": 5, "mean": 25}
+        ]
+      },
+      {
+        "deviceId": 11003,
+        "deviceType": "Pressure_Oven",
+        "stabilityFactor": 98,
+        "sfd_start_time": "14:00",
+        "sfd_end_time": "14:10",	      
+        "sensors": [
+          {"sensorId": 1100301, "min_range": 3500, "max_range": 4500, "unit": "Celcius", "sensorType": "temperature", "sd": 30, "mean": 4000},
+          {"sensorId": 1100302, "min_range": 4000, "max_range": 6000, "unit": "Celcius", "sensorType": "temperature", "sd": 50, "mean": 4800},
+          {"sensorId": 1100303, "min_range": 320, "max_range": 380, "unit": "Volt", "sensorType": "voltage", "sd": 10, "mean": 360},
+          {"sensorId": 1100304, "min_range": 20, "max_range": 30, "unit": "Amp", "sensorType": "current", "sd": 4, "mean": 24}  
+        ]
+      },
+      {
+        "deviceId": 11004,
+        "deviceType": "Pressure_Oven",
+        "stabilityFactor": 45,
+        "sfd_start_time": "06:00",
+        "sfd_end_time": "11:30",	      
+        "sensors": [
+          {"sensorId": 1100401, "min_range": 3500, "max_range": 4500, "unit": "Celcius", "sensorType": "temperature", "sd": 30, "mean": 4000},
+          {"sensorId": 1100402, "min_range": 4000, "max_range": 6000, "unit": "Celcius", "sensorType": "temperature", "sd": 50, "mean": 4800},
+          {"sensorId": 1100403, "min_range": 14, "max_range": 28, "unit": "Psi", "sensorType": "pressure", "sd": 10, "mean": 20},
+          {"sensorId": 1100404, "min_range": 320, "max_range": 380, "unit": "Volt", "sensorType": "voltage", "sd": 10, "mean": 360},
+          {"sensorId": 1100405, "min_range": 20, "max_range": 30, "unit": "Amp", "sensorType": "current", "sd": 4, "mean": 24}  
+        ]
+      },
+      {
+        "deviceId": 11005,
+        "deviceType": "Oil_Pump",
+        "stabilityFactor": 25,
+        "sfd_start_time": "05:50",
+        "sfd_end_time": "11:10",	      
+        "sensors": [
+          {"sensorId": 1100501, "min_range": 1800, "max_range": 2000, "unit": "Celcius", "sensorType": "temperature", "sd": 20, "mean": 1900},
+          {"sensorId": 1100502, "min_range": 320, "max_range": 380, "unit": "Volt", "sensorType": "voltage", "sd": 10, "mean": 360},
+          {"sensorId": 1100503, "min_range": 20, "max_range": 30, "unit": "Amp", "sensorType": "current", "sd": 5, "mean": 25},
+          {"sensorId": 1100504, "min_range": 2000, "max_range": 2200, "unit": "RPM", "sensorType": "revolutions", "sd": 20, "mean": 2100},
+          {"sensorId": 1100505, "min_range": 10, "max_range": 16, "unit": "Bar", "sensorType": "pressure", "sd": 2, "mean": 13},
+          {"sensorId": 1100506, "min_range": 250, "max_range": 280, "unit": "L/m", "sensorType": "flow_rate", "sd": 10, "mean": 265}
+        ]
+      }
+    ]
+  },
+
+
+  {
+    "siteId": 111,
+    "name": "Port Nolloth",
+    "console_debuglevel": 1,
+    "file_debuglevel": 0,
+    "data_persistence": 2,
+    "location": {"latitude": -29.2550, "longitude": 16.8689},
+    "time_zone": "+2:00",
+    "historic_data_start_datetime": "2024-10-20T18:00",
+    "operational_start_time": "06:00",
+    "operational_end_time": "23:00",
+    "reccap": 1000,
+    "flush_size": 250,
+    "sleeptime": 1000,
+    "devices": [
+      {
+        "deviceId": 11101,
+        "deviceType": "Fuel_Pump",
+        "stabilityFactor": 95,
+        "sfd_start_time": "14:00",
+        "sfd_end_time": "16:00",	      
+        "sensors": [
+          {"sensorId": 1110101, "min_range": 40, "max_range": 50, "unit": "Celcius", "sensorType": "temperature", "sd": 4, "mean": 45},
+          {"sensorId": 1110102, "min_range": 200, "max_range": 300, "unit": "Celcius", "sensorType": "temperature", "sd": 20, "mean": 250},
+          {"sensorId": 1110103, "min_range": 14, "max_range": 28, "unit": "Psi", "sensorType": "pressure", "sd": 10, "mean": 20},
+          {"sensorId": 1110104, "min_range": 2500, "max_range": 3000, "unit": "RPM", "sensorType": "revolutions", "sd": 20, "mean": 2700},
+          {"sensorId": 1110105, "min_range": 20, "max_range": 30, "unit": "Liter", "sensorType": "flow_rate", "sd": 5, "mean": 25}
+        ]
+      },
+      {
+        "deviceId": 11102,
+        "deviceType": "Pressure_Oven",
+        "stabilityFactor": 95,
+        "sfd_start_time": "14:00",
+        "sfd_end_time": "16:00",	      
+        "sensors": [
+          {"sensorId": 1110201, "min_range": 3500, "max_range": 4500, "unit": "Celcius", "sensorType": "temperature", "sd": 30, "mean": 4000},
+          {"sensorId": 1110202, "min_range": 4000, "max_range": 6000, "unit": "Celcius", "sensorType": "temperature", "sd": 50, "mean": 4800},
+          {"sensorId": 1110203, "min_range": 320, "max_range": 380, "unit": "Volt", "sensorType": "voltage", "sd": 10, "mean": 360},
+          {"sensorId": 1110204, "min_range": 20, "max_range": 30, "unit": "Amp", "sensorType": "current", "sd": 4, "mean": 24},
+          {"sensorId": 1110205, "min_range": 14, "max_range": 28, "unit": "Psi", "sensorType": "pressure", "sd": 10, "mean": 20},
+          {"sensorId": 1110206, "min_range": 14, "max_range": 28, "unit": "Psi", "sensorType": "pressure", "sd": 10, "mean": 20}
+        ]
+      }
+    ]
+  },
+  
+  
+  {
+    "siteId": 112,
+    "name": "Kimberley",
+    "console_debuglevel": 1,
+    "file_debuglevel": 0,
+    "data_persistence": 2,
+    "location": {"latitude": -28.7435, "longitude": 24.7626},
+    "time_zone": "+2:00",
+    "historic_data_start_datetime": "2022-06-01T08:00",
+    "reccap": 600,
+    "flush_size": 200,
+    "sleeptime": 4000,
+    "devices": [
+      {
+        "deviceId": 11201,
+        "deviceType": "Conveyer_Motor",
+        "stabilityFactor": 95,
+        "sfd_start_time": "14:00",
+        "sfd_end_time": "16:00",	      
+        "sensors": [
+          {"sensorId": 1120101, "min_range": 50, "max_range": 70, "unit": "Celcius", "sensorType": "temperature", "sd": 5, "mean": 60},
+          {"sensorId": 1120102, "min_range": 1000, "max_range": 1500, "unit": "RPM", "sensorType": "revolutions", "sd": 20, "mean": 1300},
+          {"sensorId": 1120103, "min_range": 320, "max_range": 380, "unit": "Volt", "sensorType": "voltage", "sd": 10, "mean": 360},
+          {"sensorId": 1120104, "min_range": 20, "max_range": 30, "unit": "Amp", "sensorType": "current", "sd": 4, "mean": 24},          
+          {"sensorId": 1120105, "min_range": 5, "max_range": 10, "unit": "m/s", "sensorType": "vibration", "sd": 3, "mean": 7}   
+        ]
+      },
+      {
+        "deviceId": 11202,
+        "deviceType": "Hoist_Motor",
+        "stabilityFactor": 95,
+        "sfd_start_time": "14:00",
+        "sfd_end_time": "16:00",	      
+        "sensors": [
+          {"sensorId": 1120201, "min_range": 60, "max_range": 80, "unit": "Celcius", "sensorType": "temperature", "sd": 10, "mean": 70},
+          {"sensorId": 1120202, "min_range": 200, "max_range": 250, "unit": "RPM", "sensorType": "revolutions", "sd": 10, "mean": 220},
+          {"sensorId": 1120203, "min_range": 320, "max_range": 380, "unit": "Volt", "sensorType": "voltage", "sd": 10, "mean": 360},
+          {"sensorId": 1120204, "min_range": 20, "max_range": 30, "unit": "Amp", "sensorType": "current", "sd": 4, "mean": 24}   
+        ]
+      },
+      {
+        "deviceId": 11203,
+        "deviceType": "Hoist_Motor",
+        "stabilityFactor": 97,
+        "sfd_start_time": "10:00",
+        "sfd_end_time": "12:10",	      
+        "sensors": [
+          {"sensorId": 1120301, "min_range": 60, "max_range": 80, "unit": "Celcius", "sensorType": "temperature", "sd": 10, "mean": 70},
+          {"sensorId": 1120302, "min_range": 200, "max_range": 250, "unit": "RPM", "sensorType": "revolutions", "sd": 10, "mean": 220},
+          {"sensorId": 1120303, "min_range": 320, "max_range": 380, "unit": "Volt", "sensorType": "voltage", "sd": 10, "mean": 360},
+          {"sensorId": 1120304, "min_range": 20, "max_range": 30, "unit": "Amp", "sensorType": "current", "sd": 4, "mean": 24}    
+        ]
+      },
+      {
+        "deviceId": 11204,
+        "deviceType": "Gas_Oven",
+        "stabilityFactor": 95,
+        "sfd_start_time": "17:00",
+        "sfd_end_time": "18:00",	      
+        "sensors": [
+          {"sensorId": 1120401, "min_range": 4000, "max_range": 5000, "unit": "Celcius", "sensorType": "temperature", "sd": 30, "mean": 4500},
+          {"sensorId": 1120402, "min_range": 4000, "max_range": 5000, "unit": "Celcius", "sensorType": "temperature", "sd": 50, "mean": 4500},
+          {"sensorId": 1120403, "min_range": 20, "max_range": 30, "unit": "Liter", "sensorType": "flow_rate", "sd": 5, "mean": 25}
+        ]
+      },
+      {
+        "deviceId": 11205,
+        "deviceType": "Gas_Oven",
+        "stabilityFactor": 90,
+        "sfd_start_time": "16:30",
+        "sfd_end_time": "17:00",	      
+        "sensors": [
+          {"sensorId": 1120501, "min_range": 750, "max_range": 1000, "unit": "Celcius", "sensorType": "temperature", "sd": 10, "mean": 800},
+          {"sensorId": 1120502, "min_range": 750, "max_range": 900, "unit": "Celcius", "sensorType": "temperature", "sd": 10, "mean": 800},
+          {"sensorId": 1120503, "min_range": 20, "max_range": 30, "unit": "Liter", "sensorType": "flow_rate", "sd": 5, "mean": 25}
+        ]
+      },
+      {
+        "deviceId": 11206,
+        "deviceType": "Fuel_Pump",
+        "stabilityFactor": 90,
+        "sfd_start_time": "17:20",
+        "sfd_end_time": "18:40",	      
+        "sensors": [
+          {"sensorId": 1120601, "min_range": 320, "max_range": 380, "unit": "Volt", "sensorType": "voltage", "sd": 10, "mean": 360},
+          {"sensorId": 1120602, "min_range": 20, "max_range": 30, "unit": "Amp", "sensorType": "current", "sd": 10, "mean": 28},
+          {"sensorId": 1120603, "min_range": 2000, "max_range": 2400, "unit": "RPM", "sensorType": "revolutions", "sd": 10, "mean": 100},
+          {"sensorId": 1120604, "min_range": 5, "max_range": 10, "unit": "BAR", "sensorType": "pressure", "sd": 10, "mean": 100},
+          {"sensorId": 1120605, "min_range": 150, "max_range": 200, "unit": "L/m", "sensorType": "flow_rate", "sd": 10, "mean": 100}
+        ]
+      },
+      {
+        "deviceId": 11207,
+        "deviceType": "Fuel_Pump",
+        "stabilityFactor": 87,
+        "sfd_start_time": "16:50",
+        "sfd_end_time": "17:15",	      
+        "sensors": [
+          {"sensorId": 1120701, "min_range": 320, "max_range": 380, "unit": "Volt", "sensorType": "voltage", "sd": 10, "mean": 360},
+          {"sensorId": 1120702, "min_range": 20, "max_range": 30, "unit": "Amp", "sensorType": "current", "sd": 10, "mean": 28},
+          {"sensorId": 1120703, "min_range": 2000, "max_range": 2400, "unit": "RPM", "sensorType": "revolutions", "sd": 10, "mean": 100},
+          {"sensorId": 1120704, "min_range": 5, "max_range": 10, "unit": "BAR", "sensorType": "pressure", "sd": 10, "mean": 100},
+          {"sensorId": 1120705, "min_range": 150, "max_range": 200, "unit": "L/m", "sensorType": "flow_rate", "sd": 10, "mean": 100}
+        ]
+      }
+    ]
+  },
+
+
+  {
+    "siteId": 113,
+    "name": "Bloemfontein",
+    "console_debuglevel": 1,
+    "file_debuglevel": 0,
+    "data_persistence": 2,
+    "location": {"latitude": -29.1129, "longitude": 26.2149},
+    "time_zone": "+2:00",
+    "historic_data_start_datetime": "2024-10-20T18:00",
+    "operational_start_time": "06:00",
+    "operational_end_time": "23:00",
+    "reccap": 1000,
+    "flush_size": 250,
+    "sleeptime": 1000,
+    "devices": [
+      {
+        "deviceId": 11301,
+        "deviceType": "Fuel_Pump",
+        "stabilityFactor": 95,
+        "sfd_start_time": "14:00",
+        "sfd_end_time": "16:00",	      
+        "sensors": [
+          {"sensorId": 1130101, "min_range": 40, "max_range": 50, "unit": "Celcius", "sensorType": "temperature", "sd": 4, "mean": 45},
+          {"sensorId": 1130102, "min_range": 200, "max_range": 300, "unit": "Celcius", "sensorType": "temperature", "sd": 20, "mean": 250},
+          {"sensorId": 1130103, "min_range": 14, "max_range": 28, "unit": "Psi", "sensorType": "pressure", "sd": 10, "mean": 20},
+          {"sensorId": 1130104, "min_range": 2500, "max_range": 3000, "unit": "RPM", "sensorType": "revolutions", "sd": 20, "mean": 2700},
+          {"sensorId": 1130105, "min_range": 20, "max_range": 30, "unit": "Liter", "sensorType": "flow_rate", "sd": 5, "mean": 25}
+        ]
+      },
+      {
+        "deviceId": 11302,
+        "deviceType": "Pressure_Oven",
+        "stabilityFactor": 95,
+        "sfd_start_time": "14:00",
+        "sfd_end_time": "16:00",	      
+        "sensors": [
+          {"sensorId": 1130201, "min_range": 3500, "max_range": 4500, "unit": "Celcius", "sensorType": "temperature", "sd": 30, "mean": 4000},
+          {"sensorId": 1130202, "min_range": 4000, "max_range": 6000, "unit": "Celcius", "sensorType": "temperature", "sd": 50, "mean": 4800},
+          {"sensorId": 1130203, "min_range": 320, "max_range": 380, "unit": "Volt", "sensorType": "voltage", "sd": 10, "mean": 360},
+          {"sensorId": 1130204, "min_range": 20, "max_range": 30, "unit": "Amp", "sensorType": "current", "sd": 4, "mean": 24},
+          {"sensorId": 1130205, "min_range": 14, "max_range": 28, "unit": "Psi", "sensorType": "pressure", "sd": 10, "mean": 20},
+          {"sensorId": 1130206, "min_range": 14, "max_range": 28, "unit": "Psi", "sensorType": "pressure", "sd": 10, "mean": 20}
+        ]
+      }
+    ]
+  },
+  
+  
+  {
+    "siteId": 114,
+    "name": "Welkom",
+    "console_debuglevel": 1,
+    "file_debuglevel": 0,
+    "data_persistence": 2,
+    "location": {"latitude": -27.9868, "longitude": 26.7558},
+    "time_zone": "+2:00",
+    "historic_data_start_datetime": "2022-06-01T08:00",
+    "reccap": 600,
+    "flush_size": 200,
+    "sleeptime": 4000,
+    "devices": [
+      {
+        "deviceId": 11401,
+        "deviceType": "Conveyer_Motor",
+        "stabilityFactor": 92,
+        "sfd_start_time": "11:00",
+        "sfd_end_time": "15:00",	      
+        "sensors": [
+          {"sensorId": 1140101, "min_range": 50, "max_range": 70, "unit": "Celcius", "sensorType": "temperature", "sd": 5, "mean": 60},
+          {"sensorId": 1140102, "min_range": 1000, "max_range": 1500, "unit": "RPM", "sensorType": "revolutions", "sd": 20, "mean": 1300},
+          {"sensorId": 1140103, "min_range": 320, "max_range": 380, "unit": "Volt", "sensorType": "voltage", "sd": 10, "mean": 360},
+          {"sensorId": 1140104, "min_range": 20, "max_range": 30, "unit": "Amp", "sensorType": "current", "sd": 4, "mean": 24},          
+          {"sensorId": 1140105, "min_range": 5, "max_range": 10, "unit": "m/s", "sensorType": "vibration", "sd": 3, "mean": 7}   
+        ]
+      },
+      {
+        "deviceId": 11402,
+        "deviceType": "Hoist_Motor",
+        "stabilityFactor": 98,
+        "sfd_start_time": "11:00",
+        "sfd_end_time": "16:00",	      
+        "sensors": [
+          {"sensorId": 1140201, "min_range": 60, "max_range": 80, "unit": "Celcius", "sensorType": "temperature", "sd": 10, "mean": 70},
+          {"sensorId": 1140202, "min_range": 200, "max_range": 250, "unit": "RPM", "sensorType": "revolutions", "sd": 10, "mean": 220},
+          {"sensorId": 1140203, "min_range": 320, "max_range": 380, "unit": "Volt", "sensorType": "voltage", "sd": 10, "mean": 360},
+          {"sensorId": 1140204, "min_range": 20, "max_range": 30, "unit": "Amp", "sensorType": "current", "sd": 4, "mean": 24}   
+        ]
+      },
+      {
+        "deviceId": 11403,
+        "deviceType": "Hoist_Motor",
+        "stabilityFactor": 92,
+        "sfd_start_time": "11:00",
+        "sfd_end_time": "12:00",	      
+        "sensors": [
+          {"sensorId": 1140301, "min_range": 60, "max_range": 80, "unit": "Celcius", "sensorType": "temperature", "sd": 10, "mean": 70},
+          {"sensorId": 1140302, "min_range": 200, "max_range": 250, "unit": "RPM", "sensorType": "revolutions", "sd": 10, "mean": 220},
+          {"sensorId": 1140303, "min_range": 320, "max_range": 380, "unit": "Volt", "sensorType": "voltage", "sd": 10, "mean": 360},
+          {"sensorId": 1140304, "min_range": 20, "max_range": 30, "unit": "Amp", "sensorType": "current", "sd": 4, "mean": 24}    
+        ]
+      },
+      {
+        "deviceId": 11404,
+        "deviceType": "Gas_Oven",
+        "stabilityFactor": 90,
+        "sfd_start_time": "16:50",
+        "sfd_end_time": "18:00",	      
+        "sensors": [
+          {"sensorId": 1140401, "min_range": 4000, "max_range": 5000, "unit": "Celcius", "sensorType": "temperature", "sd": 30, "mean": 4500},
+          {"sensorId": 1140402, "min_range": 4000, "max_range": 5000, "unit": "Celcius", "sensorType": "temperature", "sd": 50, "mean": 4500},
+          {"sensorId": 1140403, "min_range": 20, "max_range": 30, "unit": "Liter", "sensorType": "flow_rate", "sd": 5, "mean": 25}
+        ]
+      },
+      {
+        "deviceId": 11405,
+        "deviceType": "Gas_Oven",
+        "stabilityFactor": 80,
+        "sfd_start_time": "16:10",
+        "sfd_end_time": "17:00",	      
+        "sensors": [
+          {"sensorId": 1140501, "min_range": 750, "max_range": 1000, "unit": "Celcius", "sensorType": "temperature", "sd": 10, "mean": 800},
+          {"sensorId": 1140502, "min_range": 750, "max_range": 900, "unit": "Celcius", "sensorType": "temperature", "sd": 10, "mean": 800},
+          {"sensorId": 1140503, "min_range": 20, "max_range": 30, "unit": "Liter", "sensorType": "flow_rate", "sd": 5, "mean": 25}
+        ]
+      },
+      {
+        "deviceId": 11406,
+        "deviceType": "Fuel_Pump",
+        "stabilityFactor": 70,
+        "sfd_start_time": "17:10",
+        "sfd_end_time": "18:20",	      
+        "sensors": [
+          {"sensorId": 1140601, "min_range": 320, "max_range": 380, "unit": "Volt", "sensorType": "voltage", "sd": 10, "mean": 360},
+          {"sensorId": 1140602, "min_range": 20, "max_range": 30, "unit": "Amp", "sensorType": "current", "sd": 10, "mean": 28},
+          {"sensorId": 1140603, "min_range": 2000, "max_range": 2400, "unit": "RPM", "sensorType": "revolutions", "sd": 10, "mean": 100},
+          {"sensorId": 1140604, "min_range": 5, "max_range": 10, "unit": "BAR", "sensorType": "pressure", "sd": 10, "mean": 100},
+          {"sensorId": 1140605, "min_range": 150, "max_range": 200, "unit": "L/m", "sensorType": "flow_rate", "sd": 10, "mean": 100}
+        ]
+      },
+      {
+        "deviceId": 11407,
+        "deviceType": "Fuel_Pump",
+        "stabilityFactor": 82,
+        "sfd_start_time": "16:50",
+        "sfd_end_time": "17:15",	      
+        "sensors": [
+          {"sensorId": 1140701, "min_range": 320, "max_range": 380, "unit": "Volt", "sensorType": "voltage", "sd": 10, "mean": 360},
+          {"sensorId": 1140702, "min_range": 20, "max_range": 30, "unit": "Amp", "sensorType": "current", "sd": 10, "mean": 28},
+          {"sensorId": 1140703, "min_range": 2000, "max_range": 2400, "unit": "RPM", "sensorType": "revolutions", "sd": 10, "mean": 100},
+          {"sensorId": 1140704, "min_range": 5, "max_range": 10, "unit": "BAR", "sensorType": "pressure", "sd": 10, "mean": 100},
+          {"sensorId": 1140705, "min_range": 150, "max_range": 200, "unit": "L/m", "sensorType": "flow_rate", "sd": 10, "mean": 100}
+        ]
+      }
+    ]
+  }
+]
+  

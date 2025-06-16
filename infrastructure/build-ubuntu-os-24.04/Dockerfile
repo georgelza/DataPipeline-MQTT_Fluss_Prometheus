@@ -5,10 +5,11 @@ FROM arm64v8/ubuntu:24.04
 WORKDIR /root
 	
 RUN echo "--> Install OS dependencies openssh-server & misc tools" && \
-    build_deps="openssh-server wget neovim curl unzip net-tools" && \
+    build_deps="wget neovim curl unzip net-tools" && \
     apt-get update && \
     apt-get install -y $build_deps
     
+#     build_deps="openssh-server wget neovim curl unzip net-tools" && \
 
 RUN echo "--> Purge apt artifacts" && \
     apt-get purge -y --auto-remove $build_deps && \

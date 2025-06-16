@@ -6,6 +6,15 @@
 export RUNHISTORIC=0
 
 ### MQTT Broker information -> see .pws
+export MQTT_BROKER_HOST=localhost
+export MQTT_BROKER_PORT=1883
+export MQTT_CLIENTTAG=factory_north
+export MQTT_TOPIC=factory_iot/north
+
+# One by One or multi mode
+export MODE=1
+# if Mode=1 then specify batch size
+export BATCH_SIZE=100
 
 # This is used in app4d, see the README.md for more information
 export TIMESTAMP_FIELD=timestamp
@@ -30,15 +39,6 @@ export ECHOSEEDFILE=0
 export SEEDFILE=conf/Full.json
 export SITEIDS=101,104
 
-# Data persistance will be controlled per site, using:
-# sites["data_persistence"]
-# 0 - no persist
-# 1 - File based -> NOTE, if site is configured with file_debuglevel = 0, then it will be saved to logfile also.
-# 2 - MongoDB Atlas
-
-# If 1 => Specify Filename, we will add the date/time to filename to make it unique.
-# If 2 -> Specify Mongo connection information in environment variables, or currently we do this via the .pwd file (listed in .gitignore)
-
 export LOGDIR=logs
 export LOGGINGFILE=logger_north
 
@@ -50,4 +50,4 @@ export TSHUMAN=0
 export STRUCTMOD=0
 export DEVICETYPE=0
 
-python3 main.py
+python3 ../app_iot1/main.py

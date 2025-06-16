@@ -10,8 +10,11 @@ CREATE CATALOG hive_catalog WITH (
 
 USE CATALOG hive_catalog;
 
-create database kafka;
+create database mqtt;
 create database prometheus;
+
+#use hive_catalog.mqtt;
+#select * from factory_iot_101;
 
 show databases;
 

@@ -4,17 +4,18 @@ include ../.env
 VERSION=1.0.0
 HADOOP_VERSION=3.3.5-java11
 
+
 define HELP
 
 Based on Ubuntu 24.04 / OpenJDK 11 / Apache Hadoop 3.3.8
 
 Available commands:
 
-- wget: Download Apache Hadoop 3.3.8 tar.gz source files.
+- buildhadoopbase: Build the base image project
 
-- buildbase: Build the base image project
+- buildhdfsbase: Build this project
 
-- build: Build this project
+- build: Build above 2, the completes project
 
 - run: Run the project
 
@@ -33,22 +34,17 @@ help:
 	@echo "$$HELP"
 .PHONY: help
 
-wget: clean
-	cd base; mkdir -p stage
-	cd base; cd stage; wget https://downloads.apache.org/hadoop/common/hadoop-3.3.5/hadoop-3.3.5-aarch64.tar.gz
+buildhadoopbase: 
+	docker build --build-arg REPO_NAME=${REPO_NAME} -t ${REPO_NAME}/hadoop-base-$(HADOOP_VERSION):$(VERSION) ./base --no-cache 
 
-clean:
-	cd base; cd stage; rm *
+buildhdfsbase:
+	docker build --build-arg REPO_NAME=${REPO_NAME} -t ${REPO_NAME}/hadoop-namenode-$(HADOOP_VERSION):$(VERSION) ./namenode --no-cache 
+	docker build --build-arg REPO_NAME=${REPO_NAME} -t ${REPO_NAME}/hadoop-datanode-$(HADOOP_VERSION):$(VERSION) ./datanode --no-cache 
+	docker build --build-arg REPO_NAME=${REPO_NAME} -t ${REPO_NAME}/hadoop-resourcemanager-$(HADOOP_VERSION):$(VERSION) ./resourcemanager --no-cache 
+	docker build --build-arg REPO_NAME=${REPO_NAME} -t ${REPO_NAME}/hadoop-nodemanager-$(HADOOP_VERSION):$(VERSION) ./nodemanager --no-cache 
+	docker build --build-arg REPO_NAME=${REPO_NAME} -t ${REPO_NAME}/hadoop-historyserver-$(HADOOP_VERSION):$(VERSION) ./historyserver --no-cache 
 
-buildbase: 
-	docker build --build-arg REPO_NAME=${REPO_NAME} -t ${REPO_NAME}/hadoop-base-$(HADOOP_VERSION):$(VERSION) ./base
-
-build: buildbase
-	docker build --build-arg REPO_NAME=${REPO_NAME} -t ${REPO_NAME}/hadoop-namenode-$(HADOOP_VERSION):$(VERSION) ./namenode
-	docker build --build-arg REPO_NAME=${REPO_NAME} -t ${REPO_NAME}/hadoop-datanode-$(HADOOP_VERSION):$(VERSION) ./datanode
-	docker build --build-arg REPO_NAME=${REPO_NAME} -t ${REPO_NAME}/hadoop-resourcemanager-$(HADOOP_VERSION):$(VERSION) ./resourcemanager
-	docker build --build-arg REPO_NAME=${REPO_NAME} -t ${REPO_NAME}/hadoop-nodemanager-$(HADOOP_VERSION):$(VERSION) ./nodemanager
-	docker build --build-arg REPO_NAME=${REPO_NAME} -t ${REPO_NAME}/hadoop-historyserver-$(HADOOP_VERSION):$(VERSION) ./historyserver
+build: buildhadoopbase buildhdfsbase
 
 run:
 	docker compose -p devlab up -d

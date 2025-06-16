@@ -3,17 +3,15 @@ ARG REPO_NAME="georgelza"
 FROM ${REPO_NAME}/apacheflink-base:1.20.1-scala_2.12-java17
 SHELL ["/bin/bash", "-c"]
 
-# this is where we have flink itself installed.
-WORKDIR /opt/flink
 ENV FLINK_HOME=/opt/flink
-
+ENV HIVE_HOME=$FLINK_HOME/conf/
 RUN mkdir -p /opt/flink/conf/
 RUN mkdir -p /opt/flink/checkpoints
 RUN mkdir -p /opt/flink/rocksdb
 RUN mkdir -p /opt/sql-client/conf/
 
-RUN chown -R flink:flink /opt/flink
-RUN chown -R flink:flink /opt/sql-client
+# this is where we have flink itself installed.
+WORKDIR /opt/flink
 
 RUN echo "--> Install JARs: Flink's S3 plugin" && \
     mkdir ./plugins/s3-fs-hadoop && \
@@ -25,6 +23,7 @@ RUN echo "--> Install JARs: Flink's S3 plugin" && \
 
 
 RUN chown -R flink:flink /opt/flink
+RUN chown -R flink:flink /opt/sql-client
 
 CMD ./bin/start-cluster.sh && sleep infinity
 

@@ -19,6 +19,4 @@ help:
 .PHONY: help
 
 build:
-	docker build -t ${REPO_NAME}/${IMAGE_NAME}:${VERSION} .
-
-# --no-cache 
+	docker build -t ${REPO_NAME}/${IMAGE_NAME}:${VERSION} . --no-cache 

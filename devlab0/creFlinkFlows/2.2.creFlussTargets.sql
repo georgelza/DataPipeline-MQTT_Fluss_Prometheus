@@ -21,12 +21,7 @@ CREATE OR REPLACE TABLE fluss_catalog.fluss.factory_iot_unnested (
 );
 
 
-
-
-
-
-
-
+-- Add Partitions, auto Partitioning is not working in 0.6.0 yet, scheduled for 0.7.0
 ALTER TABLE fluss_catalog.fluss.factory_iot_unnested ADD PARTITION (partition_month = '202204');
 ALTER TABLE fluss_catalog.fluss.factory_iot_unnested ADD PARTITION (partition_month = '202205');
 ALTER TABLE fluss_catalog.fluss.factory_iot_unnested ADD PARTITION (partition_month = '202206');
