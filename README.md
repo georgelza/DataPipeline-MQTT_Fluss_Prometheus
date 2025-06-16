@@ -28,11 +28,12 @@ NOTE: This [MQTT-Flink-Source-connector](https://github.com/georgelza/MQTT-Flink
 
 1.  After this we will consolidate all into one fluss based table namely, `factory_iot_unnested` table, during this insert we also unnest/flatten the data structure.
    
-2.  We will now create 3 flink/output tables using the "beta" [prometheus](https://prmetheus.io) flink [sql connector](https://github.com/apache/flink-connector-prometheus/pull/22). (see Build various containers, step 3 re the beta prometheus sink connector). 
+2.  We will now create 3 flink/output tables using the "beta" [prometheus](https://prmetheus.io) [Apache Flink sql connector](https://github.com/apache/flink-connector-prometheus/pull/22). (see Build various containers, step 3 re the beta prometheus sink connector). 
    
 3.  We will then run 3 jobs to insert the `siteId=101`, `siteId=102` and `siteId=103` into the above created tabless. During this step we assign the metric label, you can run all 3 flink inserts as one label or you can call it say **north_metrics**, **south_metrics** and **east_metrics**.
    
 4.  At this point we have data flowing from source into mqtt, via flink into fluss, then sinked down into prometheus using a flink connector. At this stage we now have the entire pipeline defined, allowing us to created fancy Grafana dashboards.
+
 
 [GIT Repo:](https://github.com/georgelza/DataPipeline-MQTT_Fluss_Prometheus)
 
