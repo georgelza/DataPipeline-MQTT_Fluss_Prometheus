@@ -24,7 +24,7 @@ For more sites see end of the file.
    
 from our **Apache Flink** cluster and ingest the data into our `hive_catalog.mqtt.factory_iot_#`  (each table mimicing a siteId) tables. We will then insert the data into our `fluss_catalog.iot.*` selecting from the `hive_catalog.mqtt.factory_iot_*` tables.
 
-NOTE: This [MQTT-Flink-Source-connector](https://github.com/georgelza/MQTT-Flink-Source-connector) is an example connector... Do not assume that it is large enterprise producion ready.
+NOTE: This [MQTT-Flink-Source-connector-v3](https://github.com/georgelza/MQTT-Flink-Source-connector-v3) is an example connector... Do not assume that it is large enterprise producion ready.
 
 1.  After this we will consolidate all into one fluss based table namely, `factory_iot_unnested` table, during this insert we also unnest/flatten the data structure.
    

@@ -16,7 +16,7 @@ CREATE OR REPLACE TABLE hive_catalog.mqtt.factory_iot_101 (
     ts_WM AS TO_TIMESTAMP(FROM_UNIXTIME(CAST(`ts` AS BIGINT) / 1000)),
     WATERMARK FOR ts_WM AS ts_WM
 ) WITH (
-     'connector'            = 'mqtt'
+     'connector'            = 'mqtt-v3'
     ,'broker.host'          = 'broker_north'                -- Example: your MQTT broker's hostname or IP
     ,'broker.port'          = '1883'                        -- Example: your MQTT broker's port (1883 for non-SSL)
     ,'topic'                = 'factory_iot/north/101'
@@ -47,7 +47,7 @@ CREATE OR REPLACE TABLE hive_catalog.mqtt.factory_iot_102 (
     ts_WM as TO_TIMESTAMP(FROM_UNIXTIME(CAST(`ts` AS BIGINT) / 1000)),
     WATERMARK FOR ts_WM AS ts_WM
 ) WITH (
-     'connector'            = 'mqtt'
+     'connector'            = 'mqtt-v3'
     ,'broker.host'          = 'broker_south'                -- Example: your MQTT broker's hostname or IP
     ,'broker.port'          = '1883'                        -- Example: your MQTT broker's port (1883 for non-SSL)
     ,'topic'                = 'factory_iot/south/102'
@@ -78,7 +78,7 @@ CREATE OR REPLACE TABLE hive_catalog.mqtt.factory_iot_103 (
     ts_WM as TO_TIMESTAMP(FROM_UNIXTIME(CAST(`ts` AS BIGINT) / 1000)),
     WATERMARK FOR ts_WM AS ts_WM
 ) WITH (
-     'connector'            = 'mqtt'
+     'connector'            = 'mqtt-v3'
     ,'broker.host'          = 'broker_east'                 -- Example: your MQTT broker's hostname or IP
     ,'broker.port'          = '1883'                        -- Example: your MQTT broker's port (1883 for non-SSL)
     ,'topic'                = 'factory_iot/east/103'
@@ -110,7 +110,7 @@ CREATE OR REPLACE TABLE hive_catalog.mqtt.factory_iot_104 (
     ts_WM as TO_TIMESTAMP(FROM_UNIXTIME(CAST(`ts` AS BIGINT) / 1000)),
     WATERMARK FOR ts_WM AS ts_WM
 ) WITH (
-     'connector'            = 'mqtt'
+     'connector'            = 'mqtt-v3'
     ,'broker.host'          = 'broker_north'                -- Example: your MQTT broker's hostname or IP
     ,'broker.port'          = '1883'                        -- Example: your MQTT broker's port (1883 for non-SSL)
     ,'topic'                = 'factory_iot/north/104'
@@ -142,7 +142,7 @@ CREATE OR REPLACE TABLE hive_catalog.mqtt.factory_iot_105 (
     ts_WM as TO_TIMESTAMP(FROM_UNIXTIME(CAST(`ts` AS BIGINT) / 1000)),
     WATERMARK FOR ts_WM AS ts_WM
 ) WITH (
-     'connector'            = 'mqtt'
+     'connector'            = 'mqtt-v3'
     ,'broker.host'          = 'broker_south'                -- Example: your MQTT broker's hostname or IP
     ,'broker.port'          = '1883'                        -- Example: your MQTT broker's port (1883 for non-SSL)
     ,'topic'                = 'factory_iot/south/105'
@@ -174,7 +174,7 @@ CREATE OR REPLACE TABLE hive_catalog.mqtt.factory_iot_106 (
     ts_WM as TO_TIMESTAMP(FROM_UNIXTIME(CAST(`ts` AS BIGINT) / 1000)),
     WATERMARK FOR ts_WM AS ts_WM
 ) WITH (
-     'connector'            = 'mqtt'
+     'connector'            = 'mqtt-v3'
     ,'broker.host'          = 'broker_east'                -- Example: your MQTT broker's hostname or IP
     ,'broker.port'          = '1883'                        -- Example: your MQTT broker's port (1883 for non-SSL)
     ,'topic'                = 'factory_iot/east/106'
