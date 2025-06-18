@@ -26,6 +26,8 @@ from our **Apache Flink** cluster and ingest the data into our `hive_catalog.mqt
 
 NOTE: This [MQTT-Flink-Source-connector-v3](https://github.com/georgelza/MQTT-Flink-Source-connector-v3) is an example connector... Do not assume that it is large enterprise producion ready.
 
+NOTE: The above is the same as the original [MQTT-Flink-Source-connector](https://github.com/georgelza/MQTT-Flink-Source-connector), refactored with a version number now included.
+
 1.  After this we will consolidate all into one fluss based table namely, `factory_iot_unnested` table, during this insert we also unnest/flatten the data structure.
    
 2.  We will now create 3 flink/output tables using the "beta" [prometheus](https://prmetheus.io) [Apache Flink sql connector](https://github.com/apache/flink-connector-prometheus/pull/22). (see Build various containers, step 3 re the beta prometheus sink connector). 
